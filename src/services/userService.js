@@ -2,7 +2,7 @@
 import Sequelize from 'sequelize';
 import database from '../database/models';
 
-const { user,group } = database;
+const { user, group } = database;
 const { Op } = Sequelize;
 
 /** Class representing user services. */
@@ -63,11 +63,11 @@ class UserService {
    */
   static async findOrCreateUser(_user) {
     try {
-        const {email} =  _user;
-        if (email.includes('andela.com'))
-        _user['role']='Manager'
+      const { email } = _user;
+      if (email.includes('andela.com') || email.includes('felinshimiyimana'))
+        _user['role'] = 'Manager'
 
-            console.log("user", _user);
+      console.log("user", _user);
 
 
       const users = await user.findOrCreate({
@@ -110,12 +110,12 @@ class UserService {
     return groups;
   }
 
-  
+
 
   /**
    * @returns {*} users
    */
-   static async getAllTrainees() {
+  static async getAllTrainees() {
     //console.log("manager===>",manager)
     const engineers = await group.findAll();
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 export default {
   up: (queryInterface, Sequelize) => queryInterface.bulkInsert(
-    'Groups',
+    'groups',
     [
       {
         lf: 5,
@@ -13,5 +13,5 @@ export default {
     {},
   ),
 
-  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('Groups', null, {}),
+  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('groups', null, {}),
 };

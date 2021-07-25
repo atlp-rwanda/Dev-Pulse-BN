@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 export default {
   up: (queryInterface, Sequelize) => queryInterface.bulkInsert(
-    'Users',
+    'users',
     [
       {
-        
+
         googleId: '107620012741405968837',
         firstName: 'Super',
         lastName: 'LF',
@@ -45,6 +45,14 @@ export default {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        firstName: 'felix',
+        lastName: 'NSHIMIYIMANA',
+        email: 'felinshimiyimana@gmail.com',
+        role: 'Trainee',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
       // {
       //   googleId: '108282791791495231796',
       //   firstName: 'Amily',
@@ -67,5 +75,5 @@ export default {
     {},
   ),
 
-  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('Users', null, {}),
+  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('users', null, {}),
 };

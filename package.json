@@ -13,12 +13,9 @@
     "dev": "yarn migrate-dev && ./node_modules/.bin/nodemon --exec babel-node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/drayzii/node-setup.git"
-  },
+  "repository": "git+https://github.com/drayzii/node-setup.git",
   "keywords": [],
-  "author": "",
+  "author": "masilio <felinshimiyimana@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/drayzii/node-setup/issues"

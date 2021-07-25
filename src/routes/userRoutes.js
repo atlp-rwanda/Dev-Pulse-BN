@@ -9,7 +9,7 @@ const {
   viewAllProfiles, getAllUsers, viewSingleProfile, getMyProfile,
 } = UserController;
 
-console.log("Fetching Profile 1", )
+console.log("Fetching Profile 1",)
 
 const router = express.Router();
 const { loginCallback } = AuthController;
