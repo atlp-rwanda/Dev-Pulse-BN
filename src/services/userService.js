@@ -64,8 +64,10 @@ class UserService {
   static async findOrCreateUser(_user) {
     try {
       const { email } = _user;
-      if (email.includes('andela.com') || email.includes('felinshimiyimana'))
+      if (email.includes('andela.com') || email.includes('felinshimiyimana')) {
         _user['role'] = 'Manager'
+      }
+
 
       console.log("user", _user);
 

@@ -1,5 +1,7 @@
 
+
 module.exports = (sequelize, DataTypes) => {
+
   const AverageRating = sequelize.define('averageRating', {
     trainee: DataTypes.INTEGER,
     submitter: DataTypes.INTEGER,
@@ -13,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   AverageRating.associate = (models) => {
     // associations can be defined here
-    AverageRating.belongsTo(models.user,{
+    AverageRating.belongsTo(models.user, {
       foreignKey: 'trainee'
     })
   };

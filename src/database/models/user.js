@@ -43,6 +43,7 @@ export default (sequelize, DataTypes) => {
               'Trainee',
               'Manager',
               'Lead',
+              'Engineer',
             ],
           ],
           msg:
