@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('averageRatings', {
+    return queryInterface.createTable("averageRatings", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -19,16 +19,7 @@ module.exports = {
       quantity: {
         type: Sequelize.DECIMAL,
       },
-      initiative: {
-        type: Sequelize.DECIMAL,
-      },
-      professionalism: {
-        type: Sequelize.DECIMAL,
-      },
-      communication: {
-        type: Sequelize.DECIMAL,
-      },
-      integration: {
+      ProfessionalCommunication: {
         type: Sequelize.DECIMAL,
       },
       averageRating: {
@@ -45,6 +36,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('averageRatings');
+    return queryInterface.dropTable("averageRatings");
   },
 };

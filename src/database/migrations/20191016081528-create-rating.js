@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('ratings', {
+    return queryInterface.createTable("ratings", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,11 +10,11 @@ module.exports = {
       },
       trainee: {
         type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
+        onDelete: "CASCADE",
         references: {
-          model: 'users',
-          key: 'id',
-          as: 'user',
+          model: "users",
+          key: "id",
+          as: "user",
         },
       },
       quality: {
@@ -23,16 +23,7 @@ module.exports = {
       quantity: {
         type: Sequelize.JSONB,
       },
-      initiative: {
-        type: Sequelize.JSONB,
-      },
-      communication: {
-        type: Sequelize.JSONB,
-      },
-      professionalism: {
-        type: Sequelize.JSONB,
-      },
-      integration: {
+      ProfessionalCommunication: {
         type: Sequelize.JSONB,
       },
       createdAt: {
@@ -46,6 +37,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('ratings');
+    return queryInterface.dropTable("ratings");
   },
 };
