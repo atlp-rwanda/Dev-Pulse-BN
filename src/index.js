@@ -5,8 +5,10 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
 import Passport from './routes/userRoutes';
 import routes from './routes/index';
+import apiDoc from './swagger';
 
 const app = express();
 const { passport } = Passport;
@@ -26,8 +28,8 @@ app.get('/', (req, res) => {
   });
 });
 
-
 app.use('/api/v1', routes);
+app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(apiDoc));
 
 // / catch 404 and forward to error handler
 app.use((req, res, next) => {
