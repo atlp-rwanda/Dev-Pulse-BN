@@ -21,11 +21,11 @@ class UserController {
    */
   static async updateRole(req, res) {
     try {
-      if (req.user.role !== 'Super LF') return Response.authorizationError(res, 'You do not have access to perform this action');
+      if (req.user.role !== 'Manager') return Response.authorizationError(res, 'You do not have access to perform this action');
       const { email } = req.body;
       const check = await UserService.findOneUser({ email });
       if (!check) return Response.notFoundError(res, 'User not found');
-      if (check.role === 'LF') return Response.badRequestError(res, 'The user is already an LF');
+      if (check.role === 'Manager') return Response.badRequestError(res, 'The user is already an LF');
       const user = await UserService.updateUser({ role: 'LF' }, { email });
       return Response.customResponse(res, 200, 'Successfully updated the user to LF', user[1][0]);
     } catch (error) {
@@ -35,21 +35,20 @@ class UserController {
   }
 
   static async viewAllProfiles(req, res) {
-    let engineerIds,allUsers;
+    let engineerIds; let
+      allUsers;
     if (req.user.role !== 'Manager') return Response.authorizationError(res, 'You do not have access to perform this action');
 
-    //console.log("id ===>", req.user.id)
+    // console.log("id ===>", req.user.id)
     const results = await getEngineersByManager(req.user.id);
-    //console.log("Engineers===>", results)
+    // console.log("Engineers===>", results)
 
     // if there is engineers
 
-
     if (results[0]) {
       engineerIds = results[0].dataValues.engineers;
-      console.log("Engineers", engineerIds)
-      if(engineerIds[0])
-        allUsers = await findAllUsers({ id: { [Op.or]: engineerIds }, role: 'Trainee' });
+      console.log('Engineers', engineerIds);
+      if (engineerIds[0]) { allUsers = await findAllUsers({ id: { [Op.or]: engineerIds }, role: 'Trainee' }); }
 
       return Response.customResponse(res, 200, 'success', allUsers);
     }
@@ -58,12 +57,12 @@ class UserController {
   }
 
   static async getAllUsers(req, res, next) {
-   // console.log("getting all userrs=====<><><====")
+    // console.log("getting all userrs=====<><><====")
     try {
       if (req.user.role === 'Trainee') return Response.authorizationError(res, 'You do not have access to perform this action');
       // if there is engineers
       const results = await UserService.findAllUsers({});
-     // console.log('results=======>',results)
+      // console.log('results=======>',results)
 
       return Response.customResponse(res, 200, 'success', results);
     } catch (error) {
