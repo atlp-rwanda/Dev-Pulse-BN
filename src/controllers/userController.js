@@ -37,7 +37,7 @@ class UserController {
   static async viewAllProfiles(req, res) {
     let engineerIds; let
       allUsers;
-    if (req.user.role !== 'Manager') return Response.authorizationError(res, 'You do not have access to perform this action');
+    // if (req.user.role !== 'Manager') return Response.authorizationError(res, 'You do not have access to perform this action');
 
     // console.log("id ===>", req.user.id)
     const results = await getEngineersByManager(req.user.id);
@@ -59,7 +59,7 @@ class UserController {
   static async getAllUsers(req, res, next) {
     // console.log("getting all userrs=====<><><====")
     try {
-      if (req.user.role === 'Trainee') return Response.authorizationError(res, 'You do not have access to perform this action');
+      // if (req.user.role === 'Trainee') return Response.authorizationError(res, 'You do not have access to perform this action');
       // if there is engineers
       const results = await UserService.findAllUsers({});
       // console.log('results=======>',results)
@@ -74,7 +74,7 @@ class UserController {
     const { id } = req.params;
     if (isNaN(parseInt(id, 10))) Response.badRequestError(res, 'enter a valid user id');
 
-    if (req.user.role === 'Engineer' && parseInt(id, 10) !== req.user.id) {
+    if (req.user.role === 'Trainee' && parseInt(id, 10) !== req.user.id) {
       return Response.authorizationError(res, 'Don\'t  have previelage to access this end point');
     }
 
