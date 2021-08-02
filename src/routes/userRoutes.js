@@ -4,6 +4,7 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import AuthController from '../controllers/authController';
 import UserController from '../controllers/userController';
 import Authenticate from '../middlewares/auth';
+import { isManager } from "../middlewares/access";   
 
 const {
   viewAllProfiles, getAllUsers, viewSingleProfile, getMyProfile,
@@ -39,9 +40,9 @@ router.get('/auth/google/redirect',
   passport.authenticate('google', { failureRedirect: '/auth/google' }),
   loginCallback);
 
-router.patch('/make-lf', Authenticate, updateRole);
+router.patch('/make-lf', isManager, Authenticate, updateRole);
 
-router.get('/all', Authenticate, getAllUsers);
+router.get('/all', isManager, Authenticate, getAllUsers);
 router.get('/', Authenticate, viewAllProfiles);
 router.get('/my-profile', Authenticate, getMyProfile);
 router.get('/:id', Authenticate, viewSingleProfile);
