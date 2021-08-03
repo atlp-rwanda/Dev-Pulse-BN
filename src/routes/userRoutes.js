@@ -40,9 +40,9 @@ router.get('/auth/google/redirect',
   passport.authenticate('google', { failureRedirect: '/auth/google' }),
   loginCallback);
 
-router.patch('/make-lf', isManager, Authenticate, updateRole);
+router.patch('/make-lf', Authenticate, isManager, updateRole);
 
-router.get('/all', isManager, Authenticate, getAllUsers);
+router.get('/all', Authenticate, isManager, getAllUsers);
 router.get('/', Authenticate, viewAllProfiles);
 router.get('/my-profile', Authenticate, getMyProfile);
 router.get('/:id', Authenticate, viewSingleProfile);
