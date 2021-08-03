@@ -2,17 +2,13 @@ import Response from '../helpers/response';
 import RatingService from '../services/ratingService';
 import UserServices from '../services/userService';
 
-import { computeAverage } from '../helpers/index';
-
 class RatingController {
   async createRatings(req, res, next) {
-    console.log('ratingggggg');
     try {
       // Creates Ratings
-      const createdRating = await RatingService.createRating(req.body);
+      const { body } = req;
+      const createdRating = await RatingService.createRating({ ...body, program: req.traineeProgram });
       const { trainee } = createdRating;
-
-      console.log('Step 1 User', trainee);
 
       // Re-compute average rating
       const { id } = req.user;

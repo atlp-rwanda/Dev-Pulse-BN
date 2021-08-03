@@ -101,6 +101,62 @@ const users = {
     },
 
   },
+  '/users/{id}/cohort/{cohort}': {
+    put: {
+      tags: ['Users'],
+      security: [{
+        JWT: [],
+      }],
+      summary: 'Change trainee\'s cohort',
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          description: 'user \'s id',
+          required: true,
+        },
+        {
+          name: 'cohort',
+          in: 'path',
+          description: 'cohort id',
+          required: true,
+        },
+
+      ],
+      consumes: [
+        'application/json',
+      ],
+      responses,
+    },
+  },
+  '/users/{id}/program/{program}': {
+    put: {
+      tags: ['Users'],
+      security: [{
+        JWT: [],
+      }],
+      summary: 'Change trainee\'s program',
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          description: 'user \'s id',
+          required: true,
+        },
+        {
+          name: 'program',
+          in: 'path',
+          description: 'program id',
+          required: true,
+        },
+
+      ],
+      consumes: [
+        'application/json',
+      ],
+      responses,
+    },
+  },
 };
 
 export default users;

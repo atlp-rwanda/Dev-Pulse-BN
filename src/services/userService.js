@@ -3,7 +3,9 @@
 import Sequelize from 'sequelize';
 import database from '../database/models';
 
-const { user, group, allowedEmails } = database;
+const {
+  user, group, cohort, allowedEmails, program,
+} = database;
 const { Op } = Sequelize;
 
 /** Class representing user services. */
@@ -18,6 +20,16 @@ class UserService {
     try {
       const users = await user.findAll({
         where: param,
+        include: [
+          {
+            model: cohort,
+            as: 'cohortInfo',
+          },
+          {
+            model: program,
+            as: 'programInfo',
+          },
+        ],
       });
       return users;
     } catch (error) {
@@ -34,6 +46,16 @@ class UserService {
     try {
       const users = await user.findOne({
         where: param,
+        include: [
+          {
+            model: cohort,
+            as: 'cohortInfo',
+          },
+          {
+            model: program,
+            as: 'programInfo',
+          },
+        ],
       });
       return users;
     } catch (error) {
@@ -89,9 +111,9 @@ class UserService {
    * @param {object} param details of a message.
    * @returns {object} users new message.
    */
-  static async updateUser(user, param) {
+  static async updateUser(body, param) {
     try {
-      const users = await user.update(user, {
+      const users = await user.update(body, {
         where: param,
         returning: true,
       });
@@ -134,6 +156,16 @@ class UserService {
           exclude: ['password'],
         },
         where: params,
+        include: [
+          {
+            model: cohort,
+            as: 'cohortInfo',
+          },
+          {
+            model: program,
+            as: 'programInfo',
+          },
+        ],
       });
 
       return user;

@@ -5,7 +5,9 @@ import UserService from '../services/userService';
 
 const { Op } = Sequelize;
 
-const { findAllUsers, getEngineersByManager, getSingleEngineer } = UserService;
+const {
+  findAllUsers, getEngineersByManager, getSingleEngineer, updateUser,
+} = UserService;
 
 /**
  * @class AuthController
@@ -89,6 +91,26 @@ class UserController {
     const user = await getSingleEngineer({ id: req.user.id });
     if (!user) Response.notFoundError(res, 'User not found');
     return Response.customResponse(res, 200, 'Profile retrieved successfully', user);
+  }
+
+  static async changeCohort(req, res) {
+    try {
+      const { id, cohort } = req.params;
+      await updateUser({ cohort }, { id });
+      return Response.customResponse(res, 200, 'trainee\'s cohort changed!');
+    } catch (error) {
+      return Response.serverError(res, error.message);
+    }
+  }
+
+  static async changeProgram(req, res) {
+    try {
+      const { id, program } = req.params;
+      await updateUser({ program }, { id });
+      return Response.customResponse(res, 200, 'trainee\'s program changed!');
+    } catch (error) {
+      return Response.serverError(res, error.message);
+    }
   }
 }
 

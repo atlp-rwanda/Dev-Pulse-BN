@@ -33,11 +33,20 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.JSONB,
       allowNull: false,
     },
+    program: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+    },
   }, {});
   rating.associate = (models) => {
     rating.belongsTo(models.user, {
       foreignKey: 'trainee',
       onDelete: 'CASCADE',
+    });
+    rating.belongsTo(models.program, {
+      foreignKey: 'program',
+      as: 'programInfo',
     });
   };
   return rating;

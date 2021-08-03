@@ -3,13 +3,16 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import AuthController from '../controllers/authController';
 import UserController from '../controllers/userController';
+import programsController from '../controllers/programsController';
 import Authenticate from '../middlewares/auth';
-import { isManager } from "../middlewares/access";   
+import { isManager } from '../middlewares/access';
+import { traineeExists } from '../middlewares/users';
+import cohortExists from '../middlewares/cohort';
 
 const {
-  viewAllProfiles, getAllUsers, viewSingleProfile, getMyProfile,
+  viewAllProfiles, getAllUsers, viewSingleProfile, getMyProfile, changeCohort, changeProgram,
 } = UserController;
-
+const { programExists } = programsController;
 const router = express.Router();
 const { loginCallback } = AuthController;
 const { updateRole } = UserController;
@@ -46,5 +49,7 @@ router.get('/all', Authenticate, isManager, getAllUsers);
 router.get('/', Authenticate, viewAllProfiles);
 router.get('/my-profile', Authenticate, getMyProfile);
 router.get('/:id', Authenticate, viewSingleProfile);
+router.put('/:id/cohort/:cohort', Authenticate, isManager, traineeExists, cohortExists, changeCohort);
+router.put('/:id/program/:program', Authenticate, isManager, traineeExists, programExists, changeProgram);
 
 export default { router, passport };
