@@ -67,7 +67,6 @@ class UserService {
       const { email } = _user;
       if (email.includes('andela.com')) _user.role = 'Manager';
 
-      console.log('user', _user);
       const authorizedEmail = await allowedEmails.findOne({ where: { email } });
 
       if (authorizedEmail || email.includes('andela.com')) {

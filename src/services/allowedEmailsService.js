@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 import database from '../database/models';
 
@@ -16,10 +17,10 @@ class AuthorizedEmailService {
 
   static async addMultipleEmails(emails) {
     try {
-      const saveEmail = await allowedEmails.bulkCreate(emails, { returning: true });
+      const saveEmail = await allowedEmails.bulkCreate(emails, { returning: true, ignoreDuplicates: true });
       return saveEmail;
     } catch (error) {
-      console.log('error', emails);
+      console.log('error', error);
       throw error;
     }
   }

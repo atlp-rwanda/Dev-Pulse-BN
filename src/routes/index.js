@@ -12,6 +12,6 @@ router.use('/users', userRouter.router);
 router.use('/ratings', ratingRouter);
 router.use('/users', userRouter.router);
 router.use('/group', groupRouter);
-router.use('/manager/emails', addEmail);
+router.use('/emails', addEmail);
 
 export default router;
