@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import jwt from 'jsonwebtoken';
 import userService from '../services/userService';
 
@@ -33,6 +34,16 @@ class AuthController {
           status: 422,
           message: error.errors[0].message,
           error: 'Validation Error',
+        };
+        const responseBuffer = Buffer.from(JSON.stringify(apiResponse));
+        return res.redirect(`${FRONTEND_URL}/login?code=${responseBuffer.toString('base64')}`);
+      }
+      // in case the email is not authorized
+      if (error.name === 'Email not authorized') {
+        const apiResponse = {
+          status: 401,
+          message: error.message,
+          error: 'Email not authorized',
         };
         const responseBuffer = Buffer.from(JSON.stringify(apiResponse));
         return res.redirect(`${FRONTEND_URL}/login?code=${responseBuffer.toString('base64')}`);
