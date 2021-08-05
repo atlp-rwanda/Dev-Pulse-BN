@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import users from './users/users';
 import rating from './ratings/rating';
 import groups from './groups/groups';
+import allowedEmails from './emails/allowedEmails';
 
 dotenv.config();
 
@@ -11,7 +12,7 @@ const paths = {
   ...users,
   ...rating,
   ...groups,
-
+  ...allowedEmails,
 };
 
 const config = {

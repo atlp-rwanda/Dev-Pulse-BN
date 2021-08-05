@@ -120,6 +120,23 @@ class Response {
       error: 'Server Error',
     });
   }
+
+  /**
+     * Retuns a structured response
+     * @param {object} res  details.
+     * @param {string} status  details.
+     * @param {string} message  details.
+     * @param {object} data  details.
+     * @returns {object}.
+     */
+  static customMultiResponse(res, status, message = null, success = null, failed = null) {
+    return res.status(status).json({
+      status,
+      message,
+      success,
+      failed,
+    });
+  }
 }
 
 export default Response;

@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
 /* eslint-disable no-useless-catch */
 import Sequelize from 'sequelize';
 import database from '../database/models';
 
-const { user,group } = database;
+const { user, group, allowedEmails } = database;
 const { Op } = Sequelize;
 
 /** Class representing user services. */
@@ -63,20 +64,21 @@ class UserService {
    */
   static async findOrCreateUser(_user) {
     try {
-        const {email} =  _user;
-        if (email.includes('andela.com'))
-        _user['role']='Manager'
+      const { email } = _user;
+      if (email.includes('andela.com')) _user.role = 'Manager';
 
-            console.log("user", _user);
+      const authorizedEmail = await allowedEmails.findOne({ where: { email } });
 
+      if (authorizedEmail || email.includes('andela.com')) {
+        const users = await user.findOrCreate({
+          where: { googleId: _user.googleId }, defaults: _user,
+        });
 
-      const users = await user.findOrCreate({
-        where: { googleId: _user.googleId }, defaults: _user,
-      });
-
-      return users;
+        return users;
+      }
+      throw new Error('Email not authorized');
     } catch (error) {
-      console.log(error)
+      console.log(error);
 
       throw error;
     }
@@ -110,13 +112,11 @@ class UserService {
     return groups;
   }
 
-  
-
   /**
    * @returns {*} users
    */
-   static async getAllTrainees() {
-    //console.log("manager===>",manager)
+  static async getAllTrainees() {
+    // console.log("manager===>",manager)
     const engineers = await group.findAll();
 
     return engineers;
