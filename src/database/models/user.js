@@ -58,6 +58,10 @@ export default (sequelize, DataTypes) => {
     user.hasMany(models.group, {
       foreignKey: 'manager',
     });
+    user.hasMany(models.attendance, {
+      foreignKey: 'trainee'
+    });
+
   };
   return user;
 };
