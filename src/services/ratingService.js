@@ -1,4 +1,4 @@
-import sequelize from 'sequelize';
+/* eslint-disable no-useless-catch */
 import database from '../database/models';
 import { computeAverage } from '../helpers/index';
 
@@ -20,7 +20,16 @@ class RatingService {
   static async getRatings(param) {
     console.log('param', param);
     try {
-      const ratings = await Rating.findAll({ where: param });
+      const ratings = await Rating.findAll({
+        where: param,
+        include: [{
+          model: database.program,
+          as: 'programInfo',
+          include: [{
+            model: database.cohort,
+          }],
+        }],
+      });
       return ratings;
     } catch (error) {
       throw error;
@@ -67,7 +76,7 @@ class RatingService {
         include: [
           {
             model: User,
-            attributes: ['id', 'firstName', 'lastName', 'email'],
+            attributes: ['id', 'firstName', 'lastName', 'email', 'cohort', 'program'],
           },
 
         ],

@@ -3,6 +3,8 @@ import users from './users/users';
 import rating from './ratings/rating';
 import groups from './groups/groups';
 import allowedEmails from './emails/allowedEmails';
+import cohorts from './cohorts/cohort';
+import programs from './programs/programs';
 
 dotenv.config();
 
@@ -13,6 +15,9 @@ const paths = {
   ...rating,
   ...groups,
   ...allowedEmails,
+  ...cohorts,
+  ...programs,
+
 };
 
 const config = {

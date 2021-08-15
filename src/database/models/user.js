@@ -50,6 +50,19 @@ export default (sequelize, DataTypes) => {
         },
       },
     },
+    cohort: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    program: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    graduated: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   }, {});
   user.associate = (models) => {
     user.hasMany(models.rating, {
@@ -57,6 +70,14 @@ export default (sequelize, DataTypes) => {
     });
     user.hasMany(models.group, {
       foreignKey: 'manager',
+    });
+    user.belongsTo(models.program, {
+      foreignKey: 'program',
+      as: 'programInfo',
+    });
+    user.belongsTo(models.cohort, {
+      foreignKey: 'cohort',
+      as: 'cohortInfo',
     });
   };
   return user;
