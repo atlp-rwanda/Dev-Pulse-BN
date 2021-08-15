@@ -5,6 +5,12 @@ import database from '../database/models';
 const { allowedEmails } = database;
 
 class AuthorizedEmailService {
+  static async getAllEmails() {
+    console.log('alleeeeeeeeeeeeeeeeemails')
+    const emails = await allowedEmails.findAll();
+    return emails;
+  }
+
   static async addEmail(emails) {
     try {
       const saveEmail = await allowedEmails.create({ email: emails });

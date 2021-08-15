@@ -8,6 +8,7 @@ import { isManager } from '../middlewares/access';
 
 const router = express.Router();
 
+router.get('/', verify, isManager, AllowedEmails.getAllEmails);
 router.post('/', verify, isManager, emailsValidation.list, AllowedEmails.addEmails);
 router.delete('/', verify, isManager, emailsValidation.list, AllowedEmails.deleteEmails);
 
