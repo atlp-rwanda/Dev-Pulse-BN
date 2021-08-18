@@ -22,13 +22,17 @@ class RatingService {
     try {
       const ratings = await Rating.findAll({
         where: param,
-        include: [{
-          model: database.program,
-          as: 'programInfo',
-          include: [{
-            model: database.cohort,
-          }],
-        }],
+        include: [
+          {
+            model: database.program,
+            as: 'programInfo',
+            include: [
+              {
+                model: database.cohort,
+              },
+            ],
+          },
+        ],
       });
       return ratings;
     } catch (error) {
@@ -69,20 +73,23 @@ class RatingService {
   }
 
   static async getAverage(param) {
-    console.log('param ', param);
     try {
       const average = await AverageRatings.findAll({
         where: param,
         include: [
           {
             model: User,
-            attributes: ['id', 'firstName', 'lastName', 'email', 'cohort', 'program'],
+            attributes: [
+              'id',
+              'firstName',
+              'lastName',
+              'email',
+              'cohort',
+              'program',
+            ],
           },
-
         ],
       });
-
-      console.log('average', average);
       return average;
     } catch (error) {
       console.log(error);

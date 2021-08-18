@@ -5,8 +5,8 @@ const traineeExists = async (req, res, next) => {
   try {
     const id = req.params.id || req.body.trainee;
     const trainee = await UserService.findOneUser({ id });
-    if (!trainee || trainee.role !== 'Trainee') {
-      return Response.notFoundError(res, 'trainee not found');
+    if (!trainee || trainee.role !== 'Trainee' || !trainee.programInfo) {
+      return Response.notFoundError(res, 'trainee not found or has no program');
     }
     req.traineeProgram = trainee.program;
     req.traineeCohort = trainee.cohort;

@@ -8,12 +8,28 @@ class programsService {
     return program.create(programData);
   }
 
+  static async getOne(where) {
+    const { dataValues } = await program.find({
+      where,
+      attributes: ['id', 'name', 'start_date', 'end_date', 'cohortId'],
+      include: [
+        {
+          model: cohort,
+        },
+      ],
+    });
+
+    return dataValues;
+  }
+
   static async getAll() {
     return program.findAll({
       attributes: ['id', 'name', 'start_date', 'end_date', 'cohortId'],
-      include: [{
-        model: cohort,
-      }],
+      include: [
+        {
+          model: cohort,
+        },
+      ],
     });
   }
 

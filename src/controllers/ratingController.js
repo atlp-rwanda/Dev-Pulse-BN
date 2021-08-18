@@ -1,13 +1,19 @@
+/* eslint-disable no-restricted-syntax */
 import Response from '../helpers/response';
 import RatingService from '../services/ratingService';
+import programsService from '../services/programsService';
 import UserServices from '../services/userService';
+import { computeAverage } from '../helpers/index';
 
 class RatingController {
   async createRatings(req, res, next) {
     try {
       // Creates Ratings
       const { body } = req;
-      const createdRating = await RatingService.createRating({ ...body, program: req.traineeProgram });
+      const createdRating = await RatingService.createRating({
+        ...body,
+        program: req.traineeProgram,
+      });
       const { trainee } = createdRating;
 
       // Re-compute average rating
@@ -25,7 +31,12 @@ class RatingController {
       // Get All ratings from average_rating table
       const ratings = await RatingService.getRatings();
 
-      return Response.customResponse(res, 200, 'Ratings retrieved successfully', ratings);
+      return Response.customResponse(
+        res,
+        200,
+        'Ratings retrieved successfully',
+        ratings
+      );
     } catch (error) {
       return next(error);
     }
@@ -38,30 +49,56 @@ class RatingController {
 
       // console.log("ratings===>", ratings)
 
-      return Response.customResponse(res, 200, 'Ratings retrieved successfully', ratings);
+      return Response.customResponse(
+        res,
+        200,
+        'Ratings retrieved successfully',
+        ratings
+      );
     } catch (error) {
       return next(error);
     }
   }
 
   async getEngineerRating(req, res, next) {
-    console.log('fetching .... ratings..');
     try {
       const { id } = req.params;
 
-      // Check if Correct User Id Passed
       const user = await UserServices.findOneUser({ id });
+      if (!user || user.role !== 'Trainee') {
+        return Response.notFoundError(res, 'Invalid engineer Id passed');
+      }
 
-      console.log('user fetched', user);
-
-      if (!user || user.role !== 'Trainee') return Response.notFoundError(res, 'Invalid engineer Id passed');
-      // Get All ratings
+      // Get All ratings and average
       const ratings = await RatingService.getRatings({ trainee: id });
+      const programs = (await programsService.getAll())
+        .filter((program) => program.cohortId === user.dataValues.cohort)
+        .map(({ dataValues: { id: pid, name, cohortId } }) => ({
+          id: pid,
+          name,
+          cohort: cohortId,
+          average: computeAverage(
+            ratings.filter((rate) => rate.program === pid)
+          ),
+        }));
 
-      // Get Average rating from average_rating Table
-      const average = await RatingService.getAverage({ trainee: id });
+      const body = {
+        average: computeAverage(ratings),
+        ratings,
+      };
 
-      return Response.customResponse(res, 200, 'Ratings retrieved successfully', { average, ratings });
+      for (const program of programs) {
+        if (program.average) {
+          body[`${program.name.replace(/\s/, '')}Average`] = program.average;
+        }
+      }
+
+      return Response.customResponse(
+        res,
+        200,
+        'Ratings retrieved successfully',
+        body
+      );
     } catch (error) {
       return next(error);
     }
@@ -72,9 +109,13 @@ class RatingController {
       // Get Rating by Id
       const rating = await RatingService.getRatings({ id: req.params.id });
 
-      if (rating.length === 0) return Response.notFoundError(res, 'Invalid rating Id used');
+      if (rating.length === 0)
+        return Response.notFoundError(res, 'Invalid rating Id used');
 
-      const updatedRating = await RatingService.updateRating({ id: req.params.id }, req.body);
+      const updatedRating = await RatingService.updateRating(
+        { id: req.params.id },
+        req.body
+      );
 
       const { user } = rating[0].dataValues;
 
