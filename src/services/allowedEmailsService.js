@@ -6,7 +6,6 @@ const { allowedEmails } = database;
 
 class AuthorizedEmailService {
   static async getAllEmails() {
-    console.log('alleeeeeeeeeeeeeeeeemails')
     const emails = await allowedEmails.findAll();
     return emails;
   }
