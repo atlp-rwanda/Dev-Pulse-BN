@@ -15,7 +15,7 @@ const {
 const router = express.Router();
 
 router.post('/', Authenticate, isManager, isProgramValid, cohortExists, addProgram);
-router.get('/', Authenticate, isManager, getPrograms);
+router.get('/', Authenticate, getPrograms);
 router.delete('/:program', Authenticate, isManager, isIdValid, programExists, removeProgram);
 router.patch('/:program', Authenticate, isManager, isIdValid, programExists, updateValidator, updateProgram);
 
