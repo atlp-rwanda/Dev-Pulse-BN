@@ -18,16 +18,7 @@ module.exports = {
     quantity: {
       type: Sequelize.DECIMAL,
     },
-    initiative: {
-      type: Sequelize.DECIMAL,
-    },
-    professionalism: {
-      type: Sequelize.DECIMAL,
-    },
     communication: {
-      type: Sequelize.DECIMAL,
-    },
-    integration: {
       type: Sequelize.DECIMAL,
     },
     averageRating: {
