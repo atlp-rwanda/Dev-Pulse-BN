@@ -6,6 +6,18 @@ import Response from '../helpers/response';
 import AuthorizedEmailService from '../services/allowedEmailsService';
 
 class AllowedEmails {
+  async getAllEmails(req, res, next) {
+    try {
+      console.log('fettting');
+      const emails = await AuthorizedEmailService.getAllEmails();
+      if (emails) {
+        return Response.customMultiResponse(res, 200, 'All email(s)', emails);
+      }
+    } catch (err) {
+      return next(err);
+    }
+  }
+
   async addEmails(req, res, next) {
     try {
       const { emails } = req.body;

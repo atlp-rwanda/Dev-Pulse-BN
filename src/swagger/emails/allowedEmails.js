@@ -1,7 +1,7 @@
 import responses from '../responses';
 
 const allowedEmails = {
-  '/emails/': {
+  'api/v1/emails/': {
     post: {
       summary: 'Authorize one or many gmail accounts',
       tags: ['Emails'],
