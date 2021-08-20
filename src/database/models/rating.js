@@ -17,19 +17,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.JSONB,
       allowNull: false,
     },
-    initiative: {
-      type: DataTypes.JSONB,
-      allowNull: false,
-    },
     communication: {
-      type: DataTypes.JSONB,
-      allowNull: false,
-    },
-    professionalism: {
-      type: DataTypes.JSONB,
-      allowNull: false,
-    },
-    integration: {
       type: DataTypes.JSONB,
       allowNull: false,
     },
