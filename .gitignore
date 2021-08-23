@@ -6,3 +6,5 @@ src/dist
 *lock*
 *error*
 *log* 
+build
+dist
