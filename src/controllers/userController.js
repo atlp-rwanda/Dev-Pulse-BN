@@ -97,6 +97,7 @@ class UserController {
     try {
       const { id, cohort } = req.params;
       await updateUser({ cohort }, { id });
+      await updateUser({ program: null }, { id });
       return Response.customResponse(res, 200, 'trainee\'s cohort changed!');
     } catch (error) {
       return Response.serverError(res, error.message);
