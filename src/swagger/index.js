@@ -8,7 +8,7 @@ import programs from './programs/programs';
 
 dotenv.config();
 
-const host = process.env.BASE_URL.replace('http://', '') || process.env.BASE_URL.replace('https://', '');
+const host = (process.env.NODE_ENV === 'production' ? process.env.BASE_URL.split('https://')[1] : process.env.BASE_URL.split('http://')[1]);
 
 const paths = {
   ...users,

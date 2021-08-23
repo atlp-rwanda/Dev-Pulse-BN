@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
-    "build": "rm -rf ./src/dist && babel ./src/. --out-dir ./src/dist --copy-files",
+    "build": "rm -rf ./src/dist && babel ./src/. --out-dir ./dist --copy-files",
     "migrate": "sequelize db:migrate --env production",
     "migrate-dev": "sequelize db:migrate",
-    "start": "npm run build && node ./src/dist/index.js",
+    "start": "npm run build && node ./dist/index.js",
     "seed": "sequelize db:seed:all --env production",
     "seed-dev": "sequelize db:seed:all --env development",
     "dev": "yarn migrate-dev && ./node_modules/.bin/nodemon --exec babel-node src/index.js",
