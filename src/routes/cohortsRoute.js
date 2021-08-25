@@ -10,6 +10,6 @@ const { addCohort, getAllCohorts } = cohortsController;
 const router = express.Router();
 
 router.post('/', Authenticate, isManager, validateBody, addCohort);
-router.get('/', Authenticate, isManager, getAllCohorts);
+router.get('/', Authenticate, getAllCohorts);
 
 export default router;
