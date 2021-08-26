@@ -20,5 +20,18 @@ class cohortsController {
       response.serverError(res, error.message);
     }
   }
+
+  static async update(req, res) {
+    const cohorts = await cohortService.updateOne(
+      { id: req.params.cohortId },
+      req.body
+    );
+    return response.customResponse(res, 200, 'cohorts updated', cohorts);
+  }
+
+  static async delete(req, res) {
+    const cohorts = await cohortService.deleteOne({ id: req.params.cohortId });
+    return response.customResponse(res, 200, 'cohorts deleted', cohorts);
+  }
 }
 export default cohortsController;

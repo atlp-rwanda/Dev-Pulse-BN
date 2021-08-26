@@ -11,5 +11,9 @@ const router = express.Router();
 
 router.post('/', Authenticate, isManager, validateBody, addCohort);
 router.get('/', Authenticate, getAllCohorts);
+router
+  .route('/:cohortId', Authenticate, isManager)
+  .patch(cohortsController.update)
+  .delete(cohortsController.delete);
 
 export default router;

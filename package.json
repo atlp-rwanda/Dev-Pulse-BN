@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "10.x"
+    "node": ">=10.x"
   },
   "scripts": {
     "build": "rm -rf ./src/dist && babel ./src/. --out-dir ./dist --copy-files",
