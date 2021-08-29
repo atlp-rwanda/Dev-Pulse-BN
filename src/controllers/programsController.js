@@ -5,8 +5,8 @@ import response from '../helpers/response';
 class programsController {
   static async addProgram(req, res) {
     try {
-      await programsService.create(req.body);
-      return response.customResponse(res, 201, 'program added ', []);
+      const program = await programsService.create(req.body);
+      return response.customResponse(res, 201, 'program added ', program);
     } catch (error) {
       response.serverError(res, error);
     }
@@ -24,8 +24,8 @@ class programsController {
   static async removeProgram(req, res) {
     try {
       const id = req.params.program;
-      await programsService.removeOne(id);
-      return response.customResponse(res, 200, 'programs removed', []);
+      const program = await programsService.removeOne(id);
+      return response.customResponse(res, 200, 'programs removed', program);
     } catch (error) {
       response.serverError(res, error);
     }
@@ -41,7 +41,7 @@ class programsController {
       }
 
       if (exists && exists.cohortId !== req.traineeCohort) {
-        return response.badRequestError(res, 'Program don\'t match with cohort');
+        return response.badRequestError(res, "Program don't match with cohort");
       }
       req.cohort = exists.cohortId;
       next();

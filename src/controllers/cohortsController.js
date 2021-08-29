@@ -5,8 +5,8 @@ import cohortService from '../services/cohortService';
 class cohortsController {
   static async addCohort(req, res) {
     try {
-      await cohortService.addCohort(req.body);
-      return response.customResponse(res, 201, 'cohort added ', []);
+      const cohort = await cohortService.addCohort(req.body);
+      return response.customResponse(res, 201, 'cohort added ', cohort);
     } catch (error) {
       response.serverError(res, error.message);
     }

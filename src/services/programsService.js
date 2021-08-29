@@ -34,7 +34,10 @@ class programsService {
   }
 
   static async removeOne(id) {
-    return program.destroy({ where: { id } });
+    const found = await program.findOne({ where: { id } });
+    const deleted = await program.destroy({ where: { id } });
+    if (!deleted) return null;
+    return found;
   }
 
   static async exists(id) {

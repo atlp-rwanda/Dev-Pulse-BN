@@ -16,10 +16,11 @@ class cohortService {
   }
 
   static async deleteOne(where) {
-    const deleted = await cohort.delete({ where });
+    const found = await cohort.findOne({ where });
+    const deleted = await cohort.destroy({ where });
 
     if (!deleted) return null;
-    return deleted;
+    return found;
   }
 
   static async updateOne(where, data) {
