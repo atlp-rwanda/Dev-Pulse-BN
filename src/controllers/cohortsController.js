@@ -5,8 +5,8 @@ import cohortService from '../services/cohortService';
 class cohortsController {
   static async addCohort(req, res) {
     try {
-      await cohortService.addCohort(req.body);
-      return response.customResponse(res, 201, 'cohort added ', []);
+      const cohort = await cohortService.addCohort(req.body);
+      return response.customResponse(res, 201, 'cohort added ', cohort);
     } catch (error) {
       response.serverError(res, error.message);
     }
@@ -19,6 +19,26 @@ class cohortsController {
     } catch (error) {
       response.serverError(res, error.message);
     }
+  }
+
+  static async update(req, res) {
+    const cohorts = await cohortService.updateOne(
+      { id: req.params.cohortId },
+      req.body
+    );
+    return response.customResponse(res, 200, 'cohorts updated', cohorts);
+  }
+
+  static async delete(req, res) {
+    const cohorts = await cohortService.deleteOne({ id: req.params.cohortId });
+    if (!cohorts.deleted)
+      return response.customResponse(res, 400, cohorts.error, null);
+    return response.customResponse(
+      res,
+      200,
+      'cohorts deleted',
+      cohorts.deleted
+    );
   }
 }
 export default cohortsController;

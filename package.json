@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "10.x"
+    "node": ">=10.x"
   },
   "scripts": {
     "build": "rm -rf ./src/dist && babel ./src/. --out-dir ./dist --copy-files",
@@ -38,6 +38,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.12",
     "passport": "^0.4.0",
     "passport-google-oauth20": "^2.0.0",
