@@ -22,7 +22,7 @@ const traineeHasProgram = async (req, res, next) => {
   if (traineeProgramInfo) {
     return next();
   }
-  return Response.badRequestError(res, 'trainee has no program');
+  return Response.conflictError(res, 'Trainee has no program');
 };
 
 export { traineeExists, traineeHasProgram };
