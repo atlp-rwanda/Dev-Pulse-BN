@@ -12,13 +12,11 @@ class RatingService {
       const ratings = await Rating.create(rating);
       return ratings;
     } catch (error) {
-      console.log('error', rating);
       throw error;
     }
   }
 
   static async getRatings(param) {
-    console.log('param', param);
     try {
       const ratings = await Rating.findAll({
         where: param,
@@ -55,18 +53,13 @@ class RatingService {
 
   static async computeAverage(trainee, submitter) {
     try {
-      console.log('RatingService 1');
       const allRatings = await RatingService.getRatings({ trainee });
-      console.log('RatingService 2');
 
       // Compute Average of all ratings of a user
       const average_rating = computeAverage(allRatings);
 
-      console.log('average_rating', average_rating);
-
       // Update the average ratings Table
       await RatingService.updateAverage({ trainee }, submitter, average_rating);
-      console.log('Done average_rating');
     } catch (error) {
       throw error;
     }
@@ -98,7 +91,6 @@ class RatingService {
   }
 
   static async updateAverage(trainee, submitter, rating) {
-    console.log('trainee   ====>', trainee);
     try {
       const found_average = await AverageRatings.findAll({ where: trainee });
 
