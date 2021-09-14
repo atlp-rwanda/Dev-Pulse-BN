@@ -11,6 +11,12 @@ const traineeExists = async (req, res, next) => {
     req.traineeProgram = trainee.program;
     req.traineeCohort = trainee.cohort;
     req.traineeProgramInfo = trainee.programInfo;
+    req.traineeProfile = {
+      id: trainee.id,
+      firstName: trainee.firstName,
+      lastName: trainee.lastName,
+      email: trainee.email,
+    };
     return next();
   } catch (error) {
     return Response.serverError(res, error.message);
