@@ -13,7 +13,7 @@
     "start": "npm run build && node ./dist/index.js",
     "seed": "sequelize db:seed:all --env production",
     "seed-dev": "sequelize db:seed:all --env development",
-    "dev": "yarn migrate-dev && ./node_modules/.bin/nodemon --exec babel-node src/index.js",
+    "dev": "yarn migrate-dev && yarn seed-dev && ./node_modules/.bin/nodemon --exec babel-node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "createModel": "npx sequelize-cli model:generate ",
     "createSeed": "npx sequelize-cli seed:generate"

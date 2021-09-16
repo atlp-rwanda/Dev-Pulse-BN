@@ -8,11 +8,6 @@ export default {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
-        email: 'ntirenganyarened1@gmail.com',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
     ],
     {},
   ),
