@@ -4,6 +4,7 @@ import RatingService from '../services/ratingService';
 import programsService from '../services/programsService';
 import UserServices from '../services/userService';
 import { computeAverage } from '../helpers/index';
+import sendEmail from '../helpers/sendEmail';
 
 class RatingController {
   async createRatings(req, res, next) {
@@ -15,10 +16,13 @@ class RatingController {
         program: req.traineeProgram,
       });
       const { trainee } = createdRating;
+      const { firstName, email, id: traineeId } = req.traineeProfile;
 
       // Re-compute average rating
       const { id } = req.user;
       RatingService.computeAverage(trainee, id);
+
+      await sendEmail('ratingCreated', { name: firstName, email, traineeId });
 
       return Response.customResponse(res, 201, 'Rating created', createdRating);
     } catch (error) {
