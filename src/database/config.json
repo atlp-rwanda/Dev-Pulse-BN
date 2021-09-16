@@ -7,7 +7,7 @@
     "dialect": "postgres"
   },
   "test": {
-    "username": "postgres",
+    "username": "postgres", 
     "password": null,
     "database": "pulse_dev",
     "host": "localhost",
