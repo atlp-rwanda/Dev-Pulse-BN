@@ -5,8 +5,14 @@ import UserService from '../services/userService';
 
 const { Op } = Sequelize;
 
-const { findAllUsers, getEngineersByManager, getSingleEngineer, updateUser } =
-  UserService;
+const {
+  findAllUsers,
+  getEngineersByManager,
+  getSingleEngineer,
+  updateUser,
+  findOneUser,
+  getAllTraineeRatings,
+} = UserService;
 
 /**
  * @class AuthController
@@ -59,7 +65,6 @@ class UserController {
 
     if (results[0]) {
       engineerIds = results[0].dataValues.engineers;
-      console.log('Engineers', engineerIds);
       if (engineerIds[0]) {
         allUsers = await findAllUsers({
           id: { [Op.or]: engineerIds },
@@ -135,6 +140,36 @@ class UserController {
       return Response.customResponse(res, 200, "trainee's program changed!");
     } catch (error) {
       return Response.serverError(res, error.message);
+    }
+  }
+
+  static async exportTraineesRatings(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { from, to } = req.query;
+
+      const user = await findOneUser({ id });
+      if (!user || user.role !== 'Trainee') {
+        return Response.notFoundError(
+          res,
+          'Trainee not found or not a trainee'
+        );
+      }
+
+      const ratings = await getAllTraineeRatings(id, from, to);
+
+      const body = {
+        ratings,
+      };
+
+      return Response.customResponse(
+        res,
+        200,
+        'Ratings retrieved successfully',
+        body
+      );
+    } catch (error) {
+      return next(error);
     }
   }
 }
