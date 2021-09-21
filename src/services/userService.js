@@ -210,6 +210,26 @@ class UserService {
       throw error;
     }
   }
+
+  static async getAllTraineeRatings(id, from, to) {
+    try {
+      const ratings = await rating.findAll({
+        where: {
+          trainee: id,
+          [Op.or]: [
+            {
+              createdAt: {
+                [Op.between]: [`${from}T00:00:00.001Z`, `${to}T23:59:59.999Z`],
+              },
+            },
+          ],
+        },
+      });
+      return ratings;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default UserService;
