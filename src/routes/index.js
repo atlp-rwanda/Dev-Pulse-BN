@@ -6,6 +6,8 @@ import groupRouter from './groupRouter';
 import addEmail from './allowedEmailsRouter';
 import programsRouter from './programsRouter';
 import cohortsRouter from './cohortsRoute';
+import attendance from './attendance'
+import sessions from './sessions'
 
 const router = express.Router();
 
@@ -17,5 +19,7 @@ router.use('/group', groupRouter);
 router.use('/emails', addEmail);
 router.use('/programs', programsRouter);
 router.use('/cohorts', cohortsRouter);
+router.use('/attendance',attendance);
+router.use('/sessions',sessions);
 
 export default router;
