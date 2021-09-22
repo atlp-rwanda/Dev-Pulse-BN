@@ -3,9 +3,7 @@
 import Sequelize from 'sequelize';
 import database from '../database/models';
 
-const {
-  user, group, cohort, allowedEmails, program,
-} = database;
+const { user, group, cohort, allowedEmails, program } = database;
 const { Op } = Sequelize;
 
 /** Class representing user services. */
@@ -87,13 +85,15 @@ class UserService {
   static async findOrCreateUser(_user) {
     try {
       const { email } = _user;
-      if (email.includes('andela.com')) _user.role = 'Manager';
+      const allowedDomain = 'andela.com';
+      if (email.includes(allowedDomain)) _user.role = 'Manager';
 
       const authorizedEmail = await allowedEmails.findOne({ where: { email } });
 
-      if (authorizedEmail || email.includes('andela.com')) {
+      if (authorizedEmail || email.includes(allowedDomain)) {
         const users = await user.findOrCreate({
-          where: { googleId: _user.googleId }, defaults: _user,
+          where: { googleId: _user.googleId },
+          defaults: _user,
         });
 
         return users;
