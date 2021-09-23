@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "postgres",
-    "password": null,
-    "database": "pulse_dev",
+    "password": "dev_pulse",
+    "database": "dev_pulse",
     "host": "localhost",
     "dialect": "postgres"
   },
