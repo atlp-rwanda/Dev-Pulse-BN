@@ -173,6 +173,21 @@ class UserService {
       throw error;
     }
   }
+
+  static async getTraineesById(ids) {
+    try {
+      const trainees = await user.findAll({
+        where: {
+          id: {
+            [Op.in]: ids,
+          },
+        },
+      });
+      return trainees;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default UserService;
