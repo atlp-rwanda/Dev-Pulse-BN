@@ -10,14 +10,14 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        is: ['^[a-z]+$', 'i'],
+        is: ['^[a-zA-Z]+/s?', 'i'],
       },
     },
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        is: ['^[a-z]+$', 'i'],
+        is: ['^[a-zA-Z]+/s?', 'i'],
       },
     },
     email: {
