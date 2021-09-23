@@ -18,13 +18,13 @@ class cohortService {
   static async deleteOne(where) {
     const found = await cohort.findOne({
       where,
-      include: [{ model: users }, { model: program, as: 'programs' }],
+      include: [{ model: users, as: 'users' }, { model: program, as: 'programs' }],
     });
 
-    if (found.users) {
+    if (found.users.length) {
       return { error: 'Please remove existing users to the cohort' };
     }
-    if (found.programs) {
+    if (found.programs.length) {
       return { error: 'Please remove existing programs of the cohort' };
     }
 
