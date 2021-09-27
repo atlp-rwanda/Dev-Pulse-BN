@@ -1,12 +1,47 @@
 /* eslint-disable class-methods-use-this */
+import { Op } from 'sequelize';
 import response from '../helpers/response';
 import cohortService from '../services/cohortService';
+import userService from '../services/userService';
 
 class cohortsController {
   static async addCohort(req, res) {
     try {
       const cohort = await cohortService.addCohort(req.body);
       return response.customResponse(res, 201, 'cohort added ', cohort);
+    } catch (error) {
+      response.serverError(res, error.message);
+    }
+  }
+
+  static async getAllRatings(req, res) {
+    try {
+      const { from, to } = req.query;
+      let dateFilter = {};
+      if (from || to) {
+        const start = new Date(decodeURI(from));
+        let end = new Date(Date.now());
+        if (to) end = new Date(decodeURI(to));
+        dateFilter = {
+          createdAt: {
+            [Op.between]: [start, end],
+          },
+        };
+      }
+
+      const users = await userService.findUsersRatings(
+        { cohort: req.params.cohortId },
+        dateFilter
+      );
+
+      return response.customResponse(
+        res,
+        200,
+        'Cohort ratings retrieved',
+        users
+          .map((user) => user.ratings)
+          .reduce((prev, curr) => prev.concat(curr), [])
+      );
     } catch (error) {
       response.serverError(res, error.message);
     }

@@ -3,14 +3,35 @@
 import Sequelize from 'sequelize';
 import database from '../database/models';
 
-const {
-  user, group, cohort, allowedEmails, program,
-} = database;
+const { user, group, cohort, rating, allowedEmails, program } = database;
 const { Op } = Sequelize;
 
 /** Class representing user services. */
 
 class UserService {
+  /**
+   * Find all users with ratings
+   * @param {object} param details of rating.
+   * @returns {object} array of users with their ratings
+   */
+  static async findUsersRatings(param, filter = {}) {
+    try {
+      const users = await user.findAll({
+        where: param,
+        include: [
+          {
+            model: rating,
+            as: 'ratings',
+            where: filter,
+          },
+        ],
+      });
+      return users;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   /**
    * Creates a new message.
    * @param {object} param details of a message.
@@ -93,7 +114,8 @@ class UserService {
 
       if (authorizedEmail || email.includes('andela.com')) {
         const users = await user.findOrCreate({
-          where: { googleId: _user.googleId }, defaults: _user,
+          where: { googleId: _user.googleId },
+          defaults: _user,
         });
 
         return users;
