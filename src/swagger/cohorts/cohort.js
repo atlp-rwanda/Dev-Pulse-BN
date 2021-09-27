@@ -38,6 +38,27 @@ const cohorts = {
     },
   },
   '/cohorts/{cohortId}': {
+    get: {
+      summary: 'Get Ratings by cohorts',
+      tags: ['Rating'],
+      security: [
+        {
+          JWT: [],
+        },
+      ],
+      parameters: [
+        {
+          in: 'path',
+          name: 'cohortId',
+          required: true,
+          schema: {
+            example: 1,
+          },
+        },
+      ],
+      consumes: ['application/json'],
+      responses,
+    },
     patch: {
       summary: 'Update Cohort',
       tags: ['Cohorts'],
@@ -85,6 +106,45 @@ const cohorts = {
       security: [
         {
           JWT: [],
+        },
+      ],
+      consumes: ['application/json'],
+      responses,
+    },
+  },
+  '/cohorts/{cohortId}/performance': {
+    get: {
+      summary: 'Get Ratings by cohorts',
+      tags: ['Rating'],
+      security: [
+        {
+          JWT: [],
+        },
+      ],
+      parameters: [
+        {
+          in: 'path',
+          name: 'cohortId',
+          required: true,
+          schema: {
+            example: 1,
+          },
+        },
+        {
+          in: 'query',
+          name: 'from',
+          required: false,
+          schema: {
+            example: '09/27/2020',
+          },
+        },
+        {
+          in: 'query',
+          name: 'to',
+          required: false,
+          schema: {
+            example: '09/27/2021',
+          },
         },
       ],
       consumes: ['application/json'],
