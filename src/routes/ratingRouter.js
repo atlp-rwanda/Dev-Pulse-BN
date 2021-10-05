@@ -6,11 +6,27 @@ import ratingController from '../controllers/ratingController';
 import { isManager } from '../middlewares/access';
 import auth from '../middlewares/auth';
 import { traineeExists, traineeHasProgram } from '../middlewares/users';
+import extractTraineesRecords from '../helpers/extractTraineesRecords';
 
 const router = express.Router();
 
-router.post('/rate/', auth, ratingValidator.validateCreate, isManager, traineeExists, traineeHasProgram, ratingController.createRatings);
-router.patch('/rate/:id', auth, isManager, ratingValidator.validateUpdate, ratingController.updateRating);
+router.post(
+  '/rate/',
+  auth,
+  ratingValidator.validateCreate,
+  isManager,
+  traineeExists,
+  traineeHasProgram,
+  ratingController.createRatings,
+);
+router.post('/rate/all', auth, isManager, extractTraineesRecords);
+router.patch(
+  '/rate/:id',
+  auth,
+  isManager,
+  ratingValidator.validateUpdate,
+  ratingController.updateRating,
+);
 router.get('/rate', auth, isManager, ratingController.getAllRatings);
 router.get('/', auth, isManager, ratingController.getAllEngineerRatings);
 router.get('/:id', auth, ratingController.getEngineerRating);

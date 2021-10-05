@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "postgres",
+    "username": "postgress",
     "password": null,
     "database": "pulse_dev",
     "host": "localhost",

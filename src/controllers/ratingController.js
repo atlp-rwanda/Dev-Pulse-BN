@@ -23,8 +23,12 @@ class RatingController {
       RatingService.computeAverage(trainee, id);
 
       await sendEmail('ratingCreated', { name: firstName, email, traineeId });
-
-      return Response.customResponse(res, 201, 'Rating created', createdRating);
+      if (req.round && req.round === req.numberOfTrainees) {
+        return Response.customResponse(res, 201, 'Rating created', createdRating);
+      }
+      if (!req.round) {
+        return Response.customResponse(res, 201, 'Rating created', createdRating);
+      }
     } catch (error) {
       return next(error);
     }
@@ -39,7 +43,7 @@ class RatingController {
         res,
         200,
         'Ratings retrieved successfully',
-        ratings
+        ratings,
       );
     } catch (error) {
       return next(error);
@@ -57,7 +61,7 @@ class RatingController {
         res,
         200,
         'Ratings retrieved successfully',
-        ratings
+        ratings,
       );
     } catch (error) {
       return next(error);
@@ -82,7 +86,7 @@ class RatingController {
           name,
           cohort: cohortId,
           average: computeAverage(
-            ratings.filter((rate) => rate.program === pid)
+            ratings.filter((rate) => rate.program === pid),
           ),
         }));
 
@@ -101,7 +105,7 @@ class RatingController {
         res,
         200,
         'Ratings retrieved successfully',
-        body
+        body,
       );
     } catch (error) {
       return next(error);
@@ -113,12 +117,11 @@ class RatingController {
       // Get Rating by Id
       const rating = await RatingService.getRatings({ id: req.params.id });
 
-      if (rating.length === 0)
-        return Response.notFoundError(res, 'Invalid rating Id used');
+      if (rating.length === 0) { return Response.notFoundError(res, 'Invalid rating Id used'); }
 
       const updatedRating = await RatingService.updateRating(
         { id: req.params.id },
-        req.body
+        req.body,
       );
 
       const { user } = rating[0].dataValues;
