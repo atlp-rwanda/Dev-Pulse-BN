@@ -1,7 +1,9 @@
 /* eslint-disable class-methods-use-this */
 import models from '../database/models';
 
-const { program, cohort, user, rating } = models;
+const {
+  program, cohort, user, rating, sprint,
+} = models;
 
 class programsService {
   static async create(programData) {
@@ -9,7 +11,7 @@ class programsService {
   }
 
   static async getOne(where) {
-    const { dataValues } = await program.find({
+    const programFound = await program.findOne({
       where,
       attributes: ['id', 'name', 'start_date', 'end_date', 'cohortId'],
       include: [
@@ -19,7 +21,7 @@ class programsService {
       ],
     });
 
-    return dataValues;
+    return programFound;
   }
 
   static async getAll() {
@@ -28,6 +30,9 @@ class programsService {
       include: [
         {
           model: cohort,
+        },
+        {
+          model: sprint,
         },
       ],
     });

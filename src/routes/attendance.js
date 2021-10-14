@@ -4,13 +4,17 @@ import { isManager } from '../middlewares/access';
 import auth from '../middlewares/auth';
 import attendance from '../middlewares/attendance';
 import { traineeExists } from '../middlewares/users';
+import sprintExists from '../middlewares/sprint';
+
 const router = express.Router();
-const { create, getAll,getTraineesAttendance,getAttendanceByProgram } = attendanceController;
+const {
+  create, getAll, getTraineesAttendance, getAttendanceByProgram,
+} = attendanceController;
 const { allTraineesExists } = attendance;
 
-router.post('/', auth, isManager,allTraineesExists,create);
-router.get('/', auth,getAll);
+router.post('/', auth, isManager, sprintExists, allTraineesExists, create);
+router.get('/', auth, getAll);
 router.get('/users/:id', auth, traineeExists, getTraineesAttendance);
-router.get('/program/:id', auth,isManager,getAttendanceByProgram);
+router.get('/program/:id', auth, isManager, getAttendanceByProgram);
 
 export default router;
