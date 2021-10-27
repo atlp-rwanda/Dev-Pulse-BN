@@ -4,12 +4,14 @@ import userService from '../services/userService';
 import attendanceService from '../services/attendanceService';
 
 const Attendance = models.attendance;
-const { sessions } = models;
+const { sessions, sprint } = models;
 
 class attendanceController {
   static async create(req, res) {
     try {
-      const { body: { sessionId, data } } = req;
+      const {
+        body: { sessionId, data, sprintId },
+      } = req;
 
       const sessionExists = await sessions.findOne({
         where: {
@@ -28,6 +30,7 @@ class attendanceController {
           attendance: parseInt(attendance),
           comment,
           programId: trainee.program,
+          sprintId,
           date: new Date(),
         });
       });
@@ -40,14 +43,40 @@ class attendanceController {
   static async getAll(req, res) {
     try {
       const { role } = req.user;
-      const attendance = (role === 'Manager' ? await Attendance.findAll({
-        attributes: ['id', 'trainee', ['sessionId', 'session'], 'attendance', 'comment', 'date'],
-      }) : await Attendance.findAll({
-        attributes: ['id', 'trainee', ['sessionId', 'session'], 'attendance', 'comment', 'date'],
-        where: {
-          trainee: req.user.id,
-        },
-      }));
+      const attendance = role === 'Manager'
+        ? await Attendance.findAll({
+          attributes: [
+            'id',
+            'trainee',
+            ['sessionId', 'session'],
+            'attendance',
+            'comment',
+            'date',
+          ],
+          include: [
+            {
+              model: sprint,
+            },
+          ],
+        })
+        : await Attendance.findAll({
+          attributes: [
+            'id',
+            'trainee',
+            ['sessionId', 'session'],
+            'attendance',
+            'comment',
+            'date',
+          ],
+          where: {
+            trainee: req.user.id,
+          },
+          include: [
+            {
+              model: sprint,
+            },
+          ],
+        });
       const getSession = await sessions.findAll({
         attributes: ['id', 'name'],
       });
@@ -60,7 +89,9 @@ class attendanceController {
 
   static async getTraineesAttendance(req, res) {
     try {
-      const { params: { id } } = req;
+      const {
+        params: { id },
+      } = req;
       const traineesRecords = await attendanceService.getByTraineeById(id);
       return response.customResponse(res, 200, 'Attendance fetched successfully', traineesRecords);
     } catch (error) {
@@ -70,11 +101,14 @@ class attendanceController {
 
   static async getAttendanceByProgram(req, res) {
     try {
-      const { params: { id } } = req;
+      const {
+        params: { id },
+      } = req;
       const programsRecords = await attendanceService.getByProgramId(id);
       return response.customResponse(res, 200, 'Attendance fetched successfully', programsRecords);
     } catch (error) {
-      response.serverError(res, error.message); v;
+      response.serverError(res, error.message);
+      v;
     }
   }
 }

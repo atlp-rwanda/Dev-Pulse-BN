@@ -39,12 +39,7 @@ class RatingController {
       // Get All ratings from average_rating table
       const ratings = await RatingService.getRatings();
 
-      return Response.customResponse(
-        res,
-        200,
-        'Ratings retrieved successfully',
-        ratings,
-      );
+      return Response.customResponse(res, 200, 'Ratings retrieved successfully', ratings);
     } catch (error) {
       return next(error);
     }
@@ -57,12 +52,7 @@ class RatingController {
 
       // console.log("ratings===>", ratings)
 
-      return Response.customResponse(
-        res,
-        200,
-        'Ratings retrieved successfully',
-        ratings,
-      );
+      return Response.customResponse(res, 200, 'Ratings retrieved successfully', ratings);
     } catch (error) {
       return next(error);
     }
@@ -85,9 +75,7 @@ class RatingController {
           id: pid,
           name,
           cohort: cohortId,
-          average: computeAverage(
-            ratings.filter((rate) => rate.program === pid),
-          ),
+          average: computeAverage(ratings.filter((rate) => rate.program === pid)),
         }));
 
       const body = {
@@ -101,12 +89,7 @@ class RatingController {
         }
       }
 
-      return Response.customResponse(
-        res,
-        200,
-        'Ratings retrieved successfully',
-        body,
-      );
+      return Response.customResponse(res, 200, 'Ratings retrieved successfully', body);
     } catch (error) {
       return next(error);
     }
@@ -117,12 +100,11 @@ class RatingController {
       // Get Rating by Id
       const rating = await RatingService.getRatings({ id: req.params.id });
 
-      if (rating.length === 0) { return Response.notFoundError(res, 'Invalid rating Id used'); }
+      if (rating.length === 0) {
+        return Response.notFoundError(res, 'Invalid rating Id used');
+      }
 
-      const updatedRating = await RatingService.updateRating(
-        { id: req.params.id },
-        req.body,
-      );
+      const updatedRating = await RatingService.updateRating({ id: req.params.id }, req.body);
 
       const { user } = rating[0].dataValues;
 

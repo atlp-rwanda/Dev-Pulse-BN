@@ -5,8 +5,9 @@ import ratingValidator from '../validation/ratingValidator';
 import ratingController from '../controllers/ratingController';
 import { isManager } from '../middlewares/access';
 import auth from '../middlewares/auth';
-import { traineeExists, traineeHasProgram } from '../middlewares/users';
+import { traineeExists, traineeHasProgram, trainHasratingInSprint } from '../middlewares/users';
 import extractTraineesRecords from '../helpers/extractTraineesRecords';
+import sprintExists from '../middlewares/sprint';
 
 const router = express.Router();
 
@@ -15,11 +16,13 @@ router.post(
   auth,
   ratingValidator.validateCreate,
   isManager,
+  sprintExists,
   traineeExists,
   traineeHasProgram,
+  trainHasratingInSprint,
   ratingController.createRatings,
 );
-router.post('/rate/all', auth, isManager, extractTraineesRecords);
+router.post('/rate/all', auth, isManager, sprintExists, extractTraineesRecords);
 router.patch(
   '/rate/:id',
   auth,

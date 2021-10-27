@@ -30,8 +30,13 @@ class RatingService {
               },
             ],
           },
+          {
+            model: database.sprint,
+            as: 'sprintInfo',
+          },
         ],
       });
+      console.log('\n\n\n\n\n\n\n\n', ratings);
       return ratings;
     } catch (error) {
       throw error;
@@ -72,14 +77,7 @@ class RatingService {
         include: [
           {
             model: User,
-            attributes: [
-              'id',
-              'firstName',
-              'lastName',
-              'email',
-              'cohort',
-              'program',
-            ],
+            attributes: ['id', 'firstName', 'lastName', 'email', 'cohort', 'program'],
           },
         ],
       });
@@ -109,6 +107,17 @@ class RatingService {
       const average = await AverageRatings.create(rating);
 
       return average;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getRatingByTraineeAndSprint(trainee, sprintId) {
+    try {
+      const rating = await Rating.findOne({
+        where: { trainee, sprintId },
+      });
+      return rating;
     } catch (error) {
       throw error;
     }

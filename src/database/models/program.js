@@ -1,10 +1,14 @@
 module.exports = (sequelize, DataTypes) => {
-  const program = sequelize.define('program', {
-    name: DataTypes.STRING,
-    start_date: DataTypes.DATE,
-    end_date: DataTypes.DATE,
-    cohortId: DataTypes.INTEGER,
-  }, {});
+  const program = sequelize.define(
+    'program',
+    {
+      name: DataTypes.STRING,
+      start_date: DataTypes.DATE,
+      end_date: DataTypes.DATE,
+      cohortId: DataTypes.INTEGER,
+    },
+    {},
+  );
   program.associate = (models) => {
     program.hasMany(models.user, {
       foreignKey: 'program',
@@ -14,6 +18,9 @@ module.exports = (sequelize, DataTypes) => {
     });
     program.belongsTo(models.cohort, {
       foreignKey: 'cohortId',
+    });
+    program.hasMany(models.sprint, {
+      foreignKey: 'programId',
     });
   };
   return program;
