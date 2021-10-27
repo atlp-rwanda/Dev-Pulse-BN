@@ -11,7 +11,7 @@
     "migrate": "sequelize db:migrate --env production",
     "migrate-dev": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo",
-    "start": "npm run build && node ./dist/index.js",
+    "start": "npm run migrate && npm run build && node ./dist/index.js",
     "seed": "yarn migrate:undo && yarn migrate-dev && sequelize  db:seed:all --env production",
     "seed:undo": "sequelize db:seed:undo:all --env development",
     "seed-dev": "sequelize db:seed:all --env development",
