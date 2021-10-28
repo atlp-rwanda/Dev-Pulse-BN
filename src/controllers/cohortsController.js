@@ -21,7 +21,11 @@ class cohortsController {
       if (from || to) {
         const start = new Date(decodeURI(from));
         let end = new Date(Date.now());
-        if (to) end = new Date(decodeURI(to));
+        if (to) {
+          end = new Date(
+            new Date(decodeURI(to)).getTime() + 24 * 60 * 60 * 1000
+          );
+        }
         dateFilter = {
           createdAt: {
             [Op.between]: [start, end],
