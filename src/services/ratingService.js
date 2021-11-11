@@ -122,6 +122,17 @@ class RatingService {
       throw error;
     }
   }
+
+  static async getRatingById(id) {
+    try {
+      const rating = await Rating.findOne({
+        where: { id },
+      });
+      return rating;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default RatingService;

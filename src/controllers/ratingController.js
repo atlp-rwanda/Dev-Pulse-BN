@@ -5,6 +5,7 @@ import programsService from '../services/programsService';
 import UserServices from '../services/userService';
 import { computeAverage } from '../helpers/index';
 import sendEmail from '../helpers/sendEmail';
+import UpdatedRatings from '../services/updatedRatings';
 
 class RatingController {
   async createRatings(req, res, next) {
@@ -104,15 +105,55 @@ class RatingController {
         return Response.notFoundError(res, 'Invalid rating Id used');
       }
 
-      const updatedRating = await RatingService.updateRating({ id: req.params.id }, req.body);
+      const updated = await UpdatedRatings.addRecord({ ratingId: req.params.id, ...req.body });
+      // const updatedRating = await RatingService.updateRating({ id: req.params.id }, req.body);
 
-      const { user } = rating[0].dataValues;
+      // const { user } = rating[0].dataValues;
 
-      // Re-compute average rating
+      // // Re-compute average rating
+      // const { id } = req.user;
+      // RatingService.computeAverage(user, id);
+
+      return Response.customResponse(res, 200, 'Rating updated', updated);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  async getpendingRatings(req, res, next) {
+    try {
+      // Get All ratings from average_rating table
+      console.log('\n\nn\n\n\n\n\n\n\n\n\n');
+      const ratings = await UpdatedRatings.pending();
+      return Response.customResponse(res, 200, 'Ratings retrieved successfully', ratings);
+    } catch (error) {
+      console.log('\n\nn\n\n\n\n\n\n\n\n\n', error);
+      return next(error);
+    }
+  }
+
+  async approveRating(req, res, next) {
+    try {
       const { id } = req.user;
-      RatingService.computeAverage(user, id);
+      await UpdatedRatings.approveRating(req.params.id);
+      const { trainee } = await RatingService.getRatingById(req.params.ratingId);
+      const { quality, quantity, communication } = await UpdatedRatings.getById(req.params.id);
 
-      return Response.customResponse(res, 200, 'Rating updated', updatedRating);
+      await RatingService.updateRating(
+        { id: req.params.ratingId },
+        { quality, quantity, communication },
+      );
+      await RatingService.computeAverage(trainee, id);
+      return Response.customResponse(res, 200, 'Rating approved successfully');
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  async rejectRating(req, res, next) {
+    try {
+      await UpdatedRatings.rejectRating(req.params.id);
+      return Response.customResponse(res, 200, 'Rating rejected');
     } catch (error) {
       return next(error);
     }
