@@ -28,26 +28,21 @@ class UserController {
    */
   static async updateRole(req, res) {
     try {
-      if (req.user.role !== 'Manager')
-        return Response.authorizationError(
-          res,
-          'You do not have access to perform this action'
-        );
+      if (req.user.role !== 'Manager') {
+        return Response.authorizationError(res, 'You do not have access to perform this action');
+      }
       const { email } = req.body;
       const check = await UserService.findOneUser({ email });
       if (!check) return Response.notFoundError(res, 'User not found');
-      if (check.role === 'Manager')
+      if (check.role === 'Manager') {
         return Response.badRequestError(res, 'The user is already an LF');
+      }
       const user = await UserService.updateUser({ role: 'LF' }, { email });
-      return Response.customResponse(
-        res,
-        200,
-        'Successfully updated the user to LF',
-        user[1][0]
-      );
+      return Response.customResponse(res, 200, 'Successfully updated the user to LF', user[1][0]);
     } catch (error) {
-      if (error.name === 'SequelizeValidationError')
+      if (error.name === 'SequelizeValidationError') {
         return Response.validationError(res, error.errors[0].message);
+      }
       return Response.serverError(res, error);
     }
   }
@@ -94,14 +89,12 @@ class UserController {
 
   static async viewSingleProfile(req, res) {
     const { id } = req.params;
-    if (isNaN(parseInt(id, 10)))
+    if (isNaN(parseInt(id, 10))) {
       Response.badRequestError(res, 'enter a valid user id');
+    }
 
     if (req.user.role === 'Trainee' && parseInt(id, 10) !== req.user.id) {
-      return Response.authorizationError(
-        res,
-        "Don't  have previelage to access this end point"
-      );
+      return Response.authorizationError(res, "Don't  have previelage to access this end point");
     }
 
     const user = await getSingleEngineer({ id });
@@ -113,13 +106,12 @@ class UserController {
 
   static async getMyProfile(req, res) {
     const user = await getSingleEngineer({ id: req.user.id });
+    const isSenior = user.role.split('_').includes('Senior');
+    if (isSenior) {
+      user.role = 'Manager';
+    }
     if (!user) Response.notFoundError(res, 'User not found');
-    return Response.customResponse(
-      res,
-      200,
-      'Profile retrieved successfully',
-      user
-    );
+    return Response.customResponse(res, 200, 'Profile retrieved successfully', user);
   }
 
   static async changeCohort(req, res) {
@@ -150,10 +142,7 @@ class UserController {
 
       const user = await findOneUser({ id });
       if (!user || user.role !== 'Trainee') {
-        return Response.notFoundError(
-          res,
-          'Trainee not found or not a trainee'
-        );
+        return Response.notFoundError(res, 'Trainee not found or not a trainee');
       }
 
       const ratings = await getAllTraineeRatings(id, from, to);
@@ -162,12 +151,7 @@ class UserController {
         ratings,
       };
 
-      return Response.customResponse(
-        res,
-        200,
-        'Ratings retrieved successfully',
-        body
-      );
+      return Response.customResponse(res, 200, 'Ratings retrieved successfully', body);
     } catch (error) {
       return next(error);
     }
