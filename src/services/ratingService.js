@@ -12,13 +12,11 @@ class RatingService {
       const ratings = await Rating.create(rating);
       return ratings;
     } catch (error) {
-      console.log('error', rating);
       throw error;
     }
   }
 
   static async getRatings(param) {
-    console.log('param', param);
     try {
       const ratings = await Rating.findAll({
         where: param,
@@ -32,8 +30,13 @@ class RatingService {
               },
             ],
           },
+          {
+            model: database.sprint,
+            as: 'sprintInfo',
+          },
         ],
       });
+      console.log('\n\n\n\n\n\n\n\n', ratings);
       return ratings;
     } catch (error) {
       throw error;
@@ -55,18 +58,13 @@ class RatingService {
 
   static async computeAverage(trainee, submitter) {
     try {
-      console.log('RatingService 1');
       const allRatings = await RatingService.getRatings({ trainee });
-      console.log('RatingService 2');
 
       // Compute Average of all ratings of a user
       const average_rating = computeAverage(allRatings);
 
-      console.log('average_rating', average_rating);
-
       // Update the average ratings Table
       await RatingService.updateAverage({ trainee }, submitter, average_rating);
-      console.log('Done average_rating');
     } catch (error) {
       throw error;
     }
@@ -79,14 +77,7 @@ class RatingService {
         include: [
           {
             model: User,
-            attributes: [
-              'id',
-              'firstName',
-              'lastName',
-              'email',
-              'cohort',
-              'program',
-            ],
+            attributes: ['id', 'firstName', 'lastName', 'email', 'cohort', 'program'],
           },
         ],
       });
@@ -98,7 +89,6 @@ class RatingService {
   }
 
   static async updateAverage(trainee, submitter, rating) {
-    console.log('trainee   ====>', trainee);
     try {
       const found_average = await AverageRatings.findAll({ where: trainee });
 
@@ -117,6 +107,28 @@ class RatingService {
       const average = await AverageRatings.create(rating);
 
       return average;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getRatingByTraineeAndSprint(trainee, sprintId) {
+    try {
+      const rating = await Rating.findOne({
+        where: { trainee, sprintId },
+      });
+      return rating;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getRatingById(id) {
+    try {
+      const rating = await Rating.findOne({
+        where: { id },
+      });
+      return rating;
     } catch (error) {
       throw error;
     }

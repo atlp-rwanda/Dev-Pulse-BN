@@ -3,14 +3,52 @@
 import Sequelize from 'sequelize';
 import database from '../database/models';
 
-const {
-  user, group, cohort, allowedEmails, program,
-} = database;
+const { user, group, cohort, rating, allowedEmails, program } = database;
 const { Op } = Sequelize;
 
 /** Class representing user services. */
 
 class UserService {
+  /**
+   * Find all users with ratings
+   * @param {object} param details of rating.
+   * @returns {object} array of users with their ratings
+   */
+  static async findUsersRatings(param, filter = {}) {
+    try {
+      const users = await user.findAll({
+        where: param,
+        include: [
+          {
+            model: rating,
+            as: 'ratings',
+            where: filter,
+            include: [
+              {
+                model: user,
+                attributes: ['firstName', 'lastName'],
+              },
+              {
+                model: program,
+                as: 'programInfo',
+                attributes: ['name'],
+              },
+              {
+                model: database.sprint,
+                attributes: ['name'],
+                as: 'sprintInfo',
+              },
+            ],
+          },
+        ],
+      });
+      console.log(users.dataValues);
+      return users;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   /**
    * Creates a new message.
    * @param {object} param details of a message.
@@ -86,14 +124,16 @@ class UserService {
    */
   static async findOrCreateUser(_user) {
     try {
+      const toInclude = 'andela.com';
       const { email } = _user;
-      if (email.includes('andela.com')) _user.role = 'Manager';
+      if (email.includes(toInclude)) _user.role = 'Manager';
 
       const authorizedEmail = await allowedEmails.findOne({ where: { email } });
 
-      if (authorizedEmail || email.includes('andela.com')) {
+      if (authorizedEmail || email.includes(toInclude)) {
         const users = await user.findOrCreate({
-          where: { googleId: _user.googleId }, defaults: _user,
+          where: { googleId: _user.googleId },
+          defaults: _user,
         });
 
         return users;
@@ -169,6 +209,41 @@ class UserService {
       });
 
       return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getTraineesById(ids) {
+    try {
+      const trainees = await user.findAll({
+        where: {
+          id: {
+            [Op.in]: ids,
+          },
+        },
+      });
+      return trainees;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getAllTraineeRatings(id, from, to) {
+    try {
+      const ratings = await rating.findAll({
+        where: {
+          trainee: id,
+          [Op.or]: [
+            {
+              createdAt: {
+                [Op.between]: [`${from}T00:00:00.001Z`, `${to}T23:59:59.999Z`],
+              },
+            },
+          ],
+        },
+      });
+      return ratings;
     } catch (error) {
       throw error;
     }

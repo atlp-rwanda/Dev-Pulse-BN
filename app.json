@@ -2,24 +2,40 @@
   "addons": [
     "heroku-postgresql"
   ],
-  "buildpacks": [
-
-  ],
+  "buildpacks": [],
   "env": {
     "NPM_CONFIG_PRODUCTION": {
-      "required": true
+      "required": true,
+      "value": false
     },
     "GOOGLE_CLIENT_ID": {
       "required": true
     },
     "GOOGLE_CLIENT_SECRET": {
       "required": true
+    },
+    "BASE_URL": {
+      "required": true
+    },
+    "FRONTEND_URL": {
+      "required": true
+    },
+    "JWT_SECRET": {
+      "required": true,
+      "value": "secret"
+    },
+    "SENIOR_MANAGERS": {
+      "required": true
+    },
+    "EMAIL": {
+      "required": true
+    },
+    "PASS": {
+      "required": true
     }
   },
-  "formation": {
-  },
+  "formation": {},
   "name": "dev-rating-manager",
-  "scripts": {
-  },
+  "scripts": {},
   "stack": "heroku-18"
 }

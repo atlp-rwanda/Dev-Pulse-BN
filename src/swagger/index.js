@@ -8,7 +8,10 @@ import programs from './programs/programs';
 
 dotenv.config();
 
-const host = process.env.BASE_URL.replace('http://', '') || process.env.BASE_URL.replace('https://', '');
+const host =
+  process.env.NODE_ENV === 'production'
+    ? process.env.BASE_URL.split('https://')[1]
+    : process.env.BASE_URL.split('http://')[1];
 
 const paths = {
   ...users,
@@ -17,7 +20,6 @@ const paths = {
   ...allowedEmails,
   ...cohorts,
   ...programs,
-
 };
 
 const config = {
@@ -28,11 +30,8 @@ const config = {
     title: 'Dev pulse',
   },
   host,
-  basePath: '/',
-  schemes: [
-    'http',
-    'https',
-  ],
+  basePath: '/api/v1/',
+  schemes: ['http', 'https'],
   securityDefinitions: {
     JWT: {
       type: 'apiKey',
@@ -43,7 +42,6 @@ const config = {
   tags: [
     { name: 'Users', description: 'Every thing About users' },
     { name: 'Rating', description: 'All about rating a trainee/Engineer' },
-
   ],
   paths,
 };

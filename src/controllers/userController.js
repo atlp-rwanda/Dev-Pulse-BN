@@ -6,7 +6,12 @@ import UserService from '../services/userService';
 const { Op } = Sequelize;
 
 const {
-  findAllUsers, getEngineersByManager, getSingleEngineer, updateUser,
+  findAllUsers,
+  getEngineersByManager,
+  getSingleEngineer,
+  updateUser,
+  findOneUser,
+  getAllTraineeRatings,
 } = UserService;
 
 /**
@@ -23,22 +28,28 @@ class UserController {
    */
   static async updateRole(req, res) {
     try {
-      if (req.user.role !== 'Manager') return Response.authorizationError(res, 'You do not have access to perform this action');
+      if (req.user.role !== 'Manager') {
+        return Response.authorizationError(res, 'You do not have access to perform this action');
+      }
       const { email } = req.body;
       const check = await UserService.findOneUser({ email });
       if (!check) return Response.notFoundError(res, 'User not found');
-      if (check.role === 'Manager') return Response.badRequestError(res, 'The user is already an LF');
+      if (check.role === 'Manager') {
+        return Response.badRequestError(res, 'The user is already an LF');
+      }
       const user = await UserService.updateUser({ role: 'LF' }, { email });
       return Response.customResponse(res, 200, 'Successfully updated the user to LF', user[1][0]);
     } catch (error) {
-      if (error.name === 'SequelizeValidationError') return Response.validationError(res, error.errors[0].message);
+      if (error.name === 'SequelizeValidationError') {
+        return Response.validationError(res, error.errors[0].message);
+      }
       return Response.serverError(res, error);
     }
   }
 
   static async viewAllProfiles(req, res) {
-    let engineerIds; let
-      allUsers;
+    let engineerIds;
+    let allUsers;
     // if (req.user.role !== 'Manager') return Response.authorizationError(res, 'You do not have access to perform this action');
 
     // console.log("id ===>", req.user.id)
@@ -49,8 +60,12 @@ class UserController {
 
     if (results[0]) {
       engineerIds = results[0].dataValues.engineers;
-      console.log('Engineers', engineerIds);
-      if (engineerIds[0]) { allUsers = await findAllUsers({ id: { [Op.or]: engineerIds }, role: 'Trainee' }); }
+      if (engineerIds[0]) {
+        allUsers = await findAllUsers({
+          id: { [Op.or]: engineerIds },
+          role: 'Trainee',
+        });
+      }
 
       return Response.customResponse(res, 200, 'success', allUsers);
     }
@@ -74,10 +89,12 @@ class UserController {
 
   static async viewSingleProfile(req, res) {
     const { id } = req.params;
-    if (isNaN(parseInt(id, 10))) Response.badRequestError(res, 'enter a valid user id');
+    if (isNaN(parseInt(id, 10))) {
+      Response.badRequestError(res, 'enter a valid user id');
+    }
 
     if (req.user.role === 'Trainee' && parseInt(id, 10) !== req.user.id) {
-      return Response.authorizationError(res, 'Don\'t  have previelage to access this end point');
+      return Response.authorizationError(res, "Don't  have previelage to access this end point");
     }
 
     const user = await getSingleEngineer({ id });
@@ -89,6 +106,10 @@ class UserController {
 
   static async getMyProfile(req, res) {
     const user = await getSingleEngineer({ id: req.user.id });
+    const isSenior = user.role.split('_').includes('Senior');
+    if (isSenior) {
+      user.role = 'Manager';
+    }
     if (!user) Response.notFoundError(res, 'User not found');
     return Response.customResponse(res, 200, 'Profile retrieved successfully', user);
   }
@@ -97,7 +118,8 @@ class UserController {
     try {
       const { id, cohort } = req.params;
       await updateUser({ cohort }, { id });
-      return Response.customResponse(res, 200, 'trainee\'s cohort changed!');
+      await updateUser({ program: null }, { id });
+      return Response.customResponse(res, 200, "trainee's cohort changed!");
     } catch (error) {
       return Response.serverError(res, error.message);
     }
@@ -107,9 +129,31 @@ class UserController {
     try {
       const { id, program } = req.params;
       await updateUser({ program }, { id });
-      return Response.customResponse(res, 200, 'trainee\'s program changed!');
+      return Response.customResponse(res, 200, "trainee's program changed!");
     } catch (error) {
       return Response.serverError(res, error.message);
+    }
+  }
+
+  static async exportTraineesRatings(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { from, to } = req.query;
+
+      const user = await findOneUser({ id });
+      if (!user || user.role !== 'Trainee') {
+        return Response.notFoundError(res, 'Trainee not found or not a trainee');
+      }
+
+      const ratings = await getAllTraineeRatings(id, from, to);
+
+      const body = {
+        ratings,
+      };
+
+      return Response.customResponse(res, 200, 'Ratings retrieved successfully', body);
+    } catch (error) {
+      return next(error);
     }
   }
 }

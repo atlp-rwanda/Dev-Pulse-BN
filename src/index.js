@@ -5,16 +5,19 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import cors from 'cors';
+import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import Passport from './routes/userRoutes';
 import routes from './routes/index';
 import apiDoc from './swagger';
 
+const { NODE_ENV } = process.env;
 const app = express();
 const { passport } = Passport;
 
 app.enable('trust proxy');
 app.use(cors());
+if (NODE_ENV !== 'production') app.use(morgan('dev'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

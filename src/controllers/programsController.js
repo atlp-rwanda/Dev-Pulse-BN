@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 /* eslint-disable class-methods-use-this */
 import programsService from '../services/programsService';
 import response from '../helpers/response';
@@ -5,10 +6,10 @@ import response from '../helpers/response';
 class programsController {
   static async addProgram(req, res) {
     try {
-      await programsService.create(req.body);
-      return response.customResponse(res, 201, 'program added ', []);
+      const program = await programsService.create(req.body);
+      return response.customResponse(res, 201, 'program added ', program);
     } catch (error) {
-      response.serverError(res, error);
+      return response.serverError(res, error);
     }
   }
 
@@ -17,17 +18,25 @@ class programsController {
       const programs = await programsService.getAll();
       return response.customResponse(res, 200, 'programs retrieved', programs);
     } catch (error) {
-      response.serverError(res, error);
+      return response.serverError(res, error);
     }
   }
 
   static async removeProgram(req, res) {
     try {
       const id = req.params.program;
-      await programsService.removeOne(id);
-      return response.customResponse(res, 200, 'programs removed', []);
+      const program = await programsService.removeOne(id);
+      if (program.error) {
+        return response.customResponse(res, 400, program.error, null);
+      }
+      return response.customResponse(
+        res,
+        200,
+        'programs removed',
+        program.deleted
+      );
     } catch (error) {
-      response.serverError(res, error);
+      return response.serverError(res, error);
     }
   }
 
@@ -41,12 +50,12 @@ class programsController {
       }
 
       if (exists && exists.cohortId !== req.traineeCohort) {
-        return response.badRequestError(res, 'Program don\'t match with cohort');
+        return response.badRequestError(res, "Program don't match with cohort");
       }
       req.cohort = exists.cohortId;
-      next();
+      return next();
     } catch (error) {
-      response.serverError(res, error);
+      return response.serverError(res, error);
     }
   }
 
@@ -56,7 +65,7 @@ class programsController {
       await programsService.update(id, req.body);
       return response.customResponse(res, 200, 'program updated', []);
     } catch (error) {
-      response.serverError(res, error);
+      return response.serverError(res, error);
     }
   }
 }

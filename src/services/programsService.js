@@ -1,7 +1,9 @@
 /* eslint-disable class-methods-use-this */
 import models from '../database/models';
 
-const { program, cohort } = models;
+const {
+  program, cohort, user, rating, sprint,
+} = models;
 
 class programsService {
   static async create(programData) {
@@ -9,7 +11,7 @@ class programsService {
   }
 
   static async getOne(where) {
-    const { dataValues } = await program.find({
+    const programFound = await program.findOne({
       where,
       attributes: ['id', 'name', 'start_date', 'end_date', 'cohortId'],
       include: [
@@ -19,7 +21,7 @@ class programsService {
       ],
     });
 
-    return dataValues;
+    return programFound;
   }
 
   static async getAll() {
@@ -29,12 +31,26 @@ class programsService {
         {
           model: cohort,
         },
+        {
+          model: sprint,
+        },
       ],
     });
   }
 
   static async removeOne(id) {
-    return program.destroy({ where: { id } });
+    const found = await program.findOne({
+      where: { id },
+      include: [{ model: user, as: 'users' }],
+    });
+    if (found.users.length) {
+      return { error: 'Some users are using this program!' };
+    }
+    const rate = await rating.findOne({ where: { program: found.id } });
+    if (rate) return { error: 'Please remove ratings associated to program' };
+    const deleted = await program.destroy({ where: { id } });
+    if (!deleted) return { error: 'Unable to delete program!' };
+    return { deleted: found };
   }
 
   static async exists(id) {

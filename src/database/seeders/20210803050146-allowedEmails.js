@@ -9,7 +9,17 @@ export default {
         updatedAt: new Date(),
       },
       {
-        email: 'ntirenganyarened1@gmail.com',
+        email: 'muhire416@gmail.com',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        email: 'iradukundairenee9@gmail.com',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        email: 'mheir299@gmail.com',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
