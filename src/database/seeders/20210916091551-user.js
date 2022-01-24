@@ -871,10 +871,21 @@ export default {
         firstName: 'Emmanuel',
         lastName: 'Nkubito',
         email: 'emmanuelnkubito2@gmail.com',
-        googleId: '1086917881519265652766',
-        role: 'Trainee',
+        googleId: '113588070412266693091',
+        role: 'Manager',
         createdAt: new Date(),
         updatedAt: new Date(),
+        //113588070412266693091
+      },
+      {
+        firstName: 'Emmanuel',
+        lastName: 'Nkubito',
+        email: 'emmanuelnkubito2@andela.com',
+        googleId: '1135880704122666930921',
+        role: 'Manager',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        //113588070412266693091
       },
       {
         firstName: 'Josue',
@@ -1209,6 +1220,7 @@ export default {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      
 
     ],
     {},

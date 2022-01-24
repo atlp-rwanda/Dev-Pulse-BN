@@ -10,6 +10,19 @@ const ratings = {
       summary: 'Rate an engineer',
       parameters: [
         {
+         in: 'header',
+         name: 'Authorization',
+         required: true,
+         schema: {
+           type: "object",
+           properties:{
+             token:{
+               type:"string"
+             } 
+          }
+         },
+        },
+        {
           in: 'body',
           name: 'body',
           required: true,
@@ -34,6 +47,21 @@ const ratings = {
         JWT: [],
       }],
       summary: 'Get all ratings for each  Engineer/Trainee',
+      parameters:[
+        {
+          in: 'header',
+          name: 'Authorization',
+          required: true,
+          schema: {
+            type: "object",
+            properties:{
+              token:{
+                type:"string"
+              } 
+           }
+          },
+         },
+      ],
       consumes: [
         'application/json',
       ],
@@ -49,6 +77,19 @@ const ratings = {
       }],
       summary: 'Modify rates of en engineer',
       parameters: [
+           {
+         in: 'header',
+         name: 'Authorization',
+         required: true,
+         schema: {
+           type: "object",
+           properties:{
+             token:{
+               type:"string"
+             } 
+          }
+         },
+        },
         {
           in: 'path',
           name: 'id',
@@ -82,6 +123,21 @@ const ratings = {
         JWT: [],
       }],
       summary: 'Get Average rating for each  Engineer/Trainee',
+      parameters:[
+        {
+          in: 'header',
+          name: 'Authorization',
+          required: true,
+          schema: {
+            type: "object",
+            properties:{
+              token:{
+                type:"string"
+              } 
+           }
+          },
+         },
+      ],
       consumes: [
         'application/json',
       ],
@@ -97,6 +153,19 @@ const ratings = {
       }],
       summary: 'Get average and all rating history of a specific  Engineer/Trainee',
       parameters: [
+           {
+         in: 'header',
+         name: 'Authorization',
+         required: true,
+         schema: {
+           type: "object",
+           properties:{
+             token:{
+               type:"string"
+             } 
+          }
+         },
+        },
         {
           in: 'path',
           name: 'id',

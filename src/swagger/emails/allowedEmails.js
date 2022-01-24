@@ -12,6 +12,19 @@ const allowedEmails = {
       ],
       parameters: [
         {
+          in: 'header',
+          name: 'Authorization',
+          required: true,
+          schema: {
+            type: "object",
+            properties:{
+              token:{
+                type:"string"
+              } 
+           }
+          },
+        },
+        {
           in: 'body',
           name: 'emails',
           required: true,
@@ -34,6 +47,19 @@ const allowedEmails = {
         },
       ],
       parameters: [
+        {
+          in: 'header',
+          name: 'Authorization',
+          required: true,
+          schema: {
+            type: "object",
+            properties:{
+              token:{
+                type:"string"
+              } 
+           }
+          },
+        },
         {
           in: 'body',
           name: 'emails',
