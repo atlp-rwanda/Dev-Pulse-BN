@@ -21,8 +21,6 @@ class AuthController {
       console.log("done......>>>")
       const user = dbUser.dataValues;
       const token = jwt.sign(user, JWT_SECRET, { expiresIn: '24h' });
-      console.log("Token:",token)
-
       const apiResponse = {
         status: 200,
         message: 'Successfully logged in',

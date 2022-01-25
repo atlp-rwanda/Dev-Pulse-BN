@@ -15,6 +15,7 @@ const router = express.Router();
 router.use('/search', searchRouter);
 router.use('/users', userRouter.router);
 router.use('/ratings', ratingRouter);
+router.use('/users', userRouter.router);
 router.use('/group', groupRouter);
 router.use('/emails', addEmail);
 router.use('/programs', programsRouter);

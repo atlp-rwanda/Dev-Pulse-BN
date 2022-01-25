@@ -23,11 +23,6 @@ export default {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
-        email: 'emmanuelnkubito2@gmail.com',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
     ],
     {},
   ),

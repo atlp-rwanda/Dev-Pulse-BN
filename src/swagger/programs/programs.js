@@ -8,21 +8,7 @@ const programs = {
       security: [{
         JWT: [],
       }],
-      parameters: [
-        {
-         in: 'header',
-         name: 'Authorization',
-         required: true,
-         schema: {
-           type: "object",
-           properties:{
-             token:{
-               type:"string"
-             } 
-          }
-         },
-        },
-        {
+      parameters: [{
         in: 'body',
         name: 'program',
         required: true,
@@ -47,21 +33,6 @@ const programs = {
       security: [{
         JWT: [],
       }],
-      parameters:[
-        {
-          in: 'header',
-          name: 'Authorization',
-          required: true,
-          schema: {
-            type: "object",
-            properties:{
-              token:{
-                type:"string"
-              } 
-           }
-          },
-         },
-      ],
       consumes: [
         'application/json',
       ],
@@ -77,19 +48,6 @@ const programs = {
         JWT: [],
       }],
       parameters: [
-           {
-         in: 'header',
-         name: 'Authorization',
-         required: true,
-         schema: {
-           type: "object",
-           properties:{
-             token:{
-               type:"string"
-             } 
-          }
-         },
-        },
         {
           in: 'path',
           name: 'program',
@@ -120,20 +78,7 @@ const programs = {
       security: [{
         JWT: [],
       }],
-      parameters: [
-           {
-         in: 'header',
-         name: 'Authorization',
-         required: true,
-         schema: {
-           type: "object",
-           properties:{
-             token:{
-               type:"string"
-             } 
-          }
-         },
-        },{
+      parameters: [{
         in: 'path',
         name: 'program',
         required: true,

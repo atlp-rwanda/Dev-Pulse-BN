@@ -8,21 +8,7 @@ const groups = {
       security: [{
         JWT: [],
       }],
-      parameters: [
-        {
-          in: 'header',
-          name: 'Authorization',
-          required: true,
-          schema: {
-            type: "object",
-            properties:{
-              token:{
-                type:"string"
-              } 
-           }
-          },
-         },
-        {
+      parameters: [{
         in: 'body',
         name: 'trainees',
         required: true,

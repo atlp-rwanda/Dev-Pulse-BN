@@ -19,12 +19,8 @@ const config = () => {
           rejectUnauthorized: false,
         },
       });
-  } 
-  else {
+  } else {
     console.log(`Connecting to ${envVar} db`);
-    if(envVar === "development"){
-      env.development.password = process.env.DB_PASS
-    }
     environment = env[envVar];
   }
   return environment;

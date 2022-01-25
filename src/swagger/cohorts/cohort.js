@@ -12,19 +12,6 @@ const cohorts = {
       ],
       parameters: [
         {
-          in: 'header',
-          name: 'Authorization',
-          required: true,
-          schema: {
-            type: "object",
-            properties:{
-              token:{
-                type:"string"
-              } 
-           }
-          },
-        },
-        {
           in: 'body',
           name: 'name',
           required: true,
@@ -46,21 +33,6 @@ const cohorts = {
           JWT: [],
         },
       ],
-      parameters: [
-        {
-         in: 'header',
-         name: 'Authorization',
-         required: true,
-         schema: {
-           type: "object",
-           properties:{
-             token:{
-               type:"string"
-             } 
-          }
-         },
-        },
-     ],
       consumes: ['application/json'],
       responses,
     },
@@ -75,19 +47,6 @@ const cohorts = {
         },
       ],
       parameters: [
-         {
-          in: 'header',
-          name: 'Authorization',
-          required: true,
-          schema: {
-            type: "object",
-            properties:{
-              token:{
-                type:"string"
-              } 
-           }
-          },
-        },
         {
           in: 'path',
           name: 'cohortId',
@@ -109,19 +68,6 @@ const cohorts = {
         },
       ],
       parameters: [
-         {
-          in: 'header',
-          name: 'Authorization',
-          required: true,
-          schema: {
-            type: "object",
-            properties:{
-              token:{
-                type:"string"
-              } 
-           }
-          },
-        },
         {
           in: 'body',
           name: 'name',
@@ -148,19 +94,6 @@ const cohorts = {
       summary: 'Delete Cohort',
       tags: ['Cohorts'],
       parameters: [
-         {
-          in: 'header',
-          name: 'Authorization',
-          required: true,
-          schema: {
-            type: "object",
-            properties:{
-              token:{
-                type:"string"
-              } 
-           }
-          },
-        },
         {
           in: 'path',
           name: 'cohortId',
@@ -189,19 +122,6 @@ const cohorts = {
         },
       ],
       parameters: [
-         {
-          in: 'header',
-          name: 'Authorization',
-          required: true,
-          schema: {
-            type: "object",
-            properties:{
-              token:{
-                type:"string"
-              } 
-           }
-          },
-        },
         {
           in: 'path',
           name: 'cohortId',

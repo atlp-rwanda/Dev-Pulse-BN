@@ -2,7 +2,6 @@ import responses from '../responses';
 
 const users = {
   '/users/auth/google': {
-    
     get: {
       tags: ['Users'],
       summary: 'Login to devpulse',
@@ -16,21 +15,6 @@ const users = {
         JWT: [],
       }],
       summary: 'get All users',
-      parameters:[
-        {
-          in: 'header',
-          name: 'Authorization',
-          required: true,
-          schema: {
-            type: "object",
-            properties:{
-              token:{
-                type:"string"
-              } 
-           }
-          },
-         },
-      ],
       consumes: [
         'application/json',
       ],
@@ -45,21 +29,6 @@ const users = {
         JWT: [],
       }],
       summary: 'get engineers corresponding to currentry logged in manager',
-      parameters:[
-        {
-          in: 'header',
-          name: 'Authorization',
-          required: true,
-          schema: {
-            type: "object",
-            properties:{
-              token:{
-                type:"string"
-              } 
-           }
-          },
-         },
-      ],
       consumes: [
         'application/json',
       ],
@@ -74,21 +43,6 @@ const users = {
         JWT: [],
       }],
       summary: 'get all information about the logged in user',
-      parameters:[
-        {
-          in: 'header',
-          name: 'Authorization',
-          required: true,
-          schema: {
-            type: "object",
-            properties:{
-              token:{
-                type:"string"
-              } 
-           }
-          },
-         },
-      ],
       consumes: [
         'application/json',
       ],
@@ -104,19 +58,6 @@ const users = {
       }],
       summary: 'Get all information about specific user',
       parameters: [
-        {
-         in: 'header',
-         name: 'Authorization',
-         required: true,
-         schema: {
-           type: "object",
-           properties:{
-             token:{
-               type:"string"
-             } 
-          }
-         },
-        },
         {
           name: 'id',
           in: 'path',
@@ -140,19 +81,6 @@ const users = {
       }],
       summary: 'Grant specified user LF role',
       parameters: [
-           {
-         in: 'header',
-         name: 'Authorization',
-         required: true,
-         schema: {
-           type: "object",
-           properties:{
-             token:{
-               type:"string"
-             } 
-          }
-         },
-        },
         {
           name: 'email',
           in: 'body',
@@ -181,19 +109,6 @@ const users = {
       }],
       summary: 'Change trainee\'s cohort',
       parameters: [
-           {
-         in: 'header',
-         name: 'Authorization',
-         required: true,
-         schema: {
-           type: "object",
-           properties:{
-             token:{
-               type:"string"
-             } 
-          }
-         },
-        },
         {
           name: 'id',
           in: 'path',
@@ -222,19 +137,6 @@ const users = {
       }],
       summary: 'Change trainee\'s program',
       parameters: [
-           {
-         in: 'header',
-         name: 'Authorization',
-         required: true,
-         schema: {
-           type: "object",
-           properties:{
-             token:{
-               type:"string"
-             } 
-          }
-         },
-        },
         {
           name: 'id',
           in: 'path',
