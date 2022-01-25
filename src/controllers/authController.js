@@ -18,14 +18,8 @@ class AuthController {
   static async loginCallback(req, res) {
     try {
       const [dbUser] = await userService.findOrCreateUser(req.user);
-      console.log('done......>>>');
+      console.log("done......>>>")
       const user = dbUser.dataValues;
-      const isSeniorManager = user.role.split('_').includes('Senior');
-      if (isSeniorManager) {
-        user.role = 'Manager';
-        user.isSenior = true;
-      }
-      console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n', user);
       const token = jwt.sign(user, JWT_SECRET, { expiresIn: '24h' });
       console.log("Token:",token)
 

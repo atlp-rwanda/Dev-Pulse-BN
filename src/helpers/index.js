@@ -2,7 +2,11 @@ export const computeAverage = (ratings) => {
   if (!ratings.length) return;
 
   // categories in ratings objects
-  const keys = ['quality', 'quantity', 'communication'];
+  const keys = [
+    'quality',
+    'quantity',
+    'communication',
+  ];
 
   // helps compute general average ratings
   let average_counter = 0;
@@ -31,7 +35,11 @@ export const computeAverage = (ratings) => {
   });
 
   // Compute the average general rating
-  avg_ratings.averageRating = (avg_ratings.averageRating / average_counter).toFixed(2);
+  avg_ratings.averageRating = (
+    avg_ratings.averageRating / average_counter
+  ).toFixed(2);
+
+  console.log(avg_ratings, '################3');
 
   return avg_ratings;
 };

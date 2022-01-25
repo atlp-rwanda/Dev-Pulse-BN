@@ -37,9 +37,6 @@ export default (sequelize, DataTypes) => {
     {},
   );
   rating.associate = (models) => {
-    rating.hasMany(models.updatedRatings, {
-      foreignKey: 'ratingId',
-    });
     rating.belongsTo(models.user, {
       foreignKey: 'trainee',
       onDelete: 'CASCADE',
