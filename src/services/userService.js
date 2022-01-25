@@ -23,26 +23,9 @@ class UserService {
             model: rating,
             as: 'ratings',
             where: filter,
-            include: [
-              {
-                model: user,
-                attributes: ['firstName', 'lastName'],
-              },
-              {
-                model: program,
-                as: 'programInfo',
-                attributes: ['name'],
-              },
-              {
-                model: database.sprint,
-                attributes: ['name'],
-                as: 'sprintInfo',
-              },
-            ],
           },
         ],
       });
-      console.log(users.dataValues);
       return users;
     } catch (error) {
       throw error;
@@ -124,13 +107,12 @@ class UserService {
    */
   static async findOrCreateUser(_user) {
     try {
-      const toInclude = 'andela.com';
       const { email } = _user;
-      if (email.includes(toInclude)) _user.role = 'Manager';
+      if (email.includes('andela.com')) _user.role = 'Manager';
 
       const authorizedEmail = await allowedEmails.findOne({ where: { email } });
 
-      if (authorizedEmail || email.includes(toInclude)) {
+      if (authorizedEmail || email.includes('andela.com')) {
         const users = await user.findOrCreate({
           where: { googleId: _user.googleId },
           defaults: _user,
