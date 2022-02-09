@@ -1159,7 +1159,7 @@ export default {
         firstName: 'Celestin ',
         lastName: 'Niyindagiriye',
         email: 'cniyindagiriye@gmail.com',
-        googleId: '1086917913519265652766',
+        googleId: '110238104080701346800',
         role: 'Trainee',
         createdAt: new Date(),
         updatedAt: new Date(),
