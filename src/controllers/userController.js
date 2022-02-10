@@ -111,7 +111,12 @@ class UserController {
       user.role = 'Manager';
     }
     if (!user) Response.notFoundError(res, 'User not found');
-    return Response.customResponse(res, 200, 'Profile retrieved successfully', user);
+
+    const seniors = process.env.SENIOR_MANAGERS;
+    const seniorList = seniors ? seniors.split(',') : [];
+    const isLead = seniorList.includes(user.email);
+
+    return Response.customResponse(res, 200, 'Profile retrieved successfully', { ...user.toJSON(), isLead });
   }
 
   static async changeCohort(req, res) {
