@@ -4,6 +4,11 @@ export default {
     'allowedEmails',
     [
       {
+        email: 'emmanuelnkubito2@gmail.com',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         email: 'renepromesse@gmail.com',
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -20,6 +25,11 @@ export default {
       },
       {
         email: 'mheir299@gmail.com',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        email: 'cniyindagiriye@gmail.com',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
