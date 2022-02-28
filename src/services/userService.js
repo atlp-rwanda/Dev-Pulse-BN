@@ -26,7 +26,7 @@ class UserService {
             include: [
               {
                 model: user,
-                attributes: ['firstName', 'lastName'],
+                attributes: ['firstName', 'lastName', 'email'],
               },
               {
                 model: program,
