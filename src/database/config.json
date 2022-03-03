@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "postgres",
-    "password": "admin123",
+    "password": null,
     "database": "pulse_dev",
     "host": "localhost",
     "dialect": "postgres"

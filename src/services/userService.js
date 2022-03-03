@@ -3,7 +3,9 @@
 import Sequelize from 'sequelize';
 import database from '../database/models';
 
-const { user, group, cohort, rating, allowedEmails, program } = database;
+const {
+  user, group, cohort, rating, allowedEmails, program,
+} = database;
 const { Op } = Sequelize;
 
 /** Class representing user services. */
@@ -59,6 +61,11 @@ class UserService {
       const users = await user.findAll({
         where: param,
         include: [
+          {
+            model: user,
+            as: 'manager',
+            attributes: ['firstName', 'lastName', 'email'],
+          },
           {
             model: cohort,
             as: 'cohortInfo',
