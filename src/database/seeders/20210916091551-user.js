@@ -861,6 +861,7 @@ export default {
       {
         firstName: 'Xavier',
         lastName: 'Ncuti ',
+        managerId: 97,
         email: 'ncuti60@gmail.com',
         googleId: '1086917880519265652766',
         role: 'Trainee',

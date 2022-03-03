@@ -19,6 +19,10 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
     },
+    managerId: {
+      type: DataTypes.INTEGER,
+      defaultValue: null,
+    },
     role: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -52,6 +56,11 @@ export default (sequelize, DataTypes) => {
     },
   }, {});
   user.associate = (models) => {
+    user.belongsTo(models.user, {
+      foreignKey: 'managerId',
+      as: 'manager',
+      foreignKeyConstraint: true,
+    });
     user.hasMany(models.rating, {
       foreignKey: 'trainee',
     });
