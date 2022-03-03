@@ -12,6 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     AverageRating.belongsTo(models.user, {
       foreignKey: 'trainee',
     });
+    AverageRating.belongsTo(models.user, {
+      foreignKey: 'submitter',
+      as: 'manager',
+      foreignKeyConstraint: true,
+    });
   };
   return AverageRating;
 };

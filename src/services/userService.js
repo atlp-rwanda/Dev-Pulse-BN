@@ -62,11 +62,6 @@ class UserService {
         where: param,
         include: [
           {
-            model: user,
-            as: 'manager',
-            attributes: ['firstName', 'lastName', 'email'],
-          },
-          {
             model: cohort,
             as: 'cohortInfo',
           },

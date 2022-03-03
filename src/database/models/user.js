@@ -56,11 +56,6 @@ export default (sequelize, DataTypes) => {
     },
   }, {});
   user.associate = (models) => {
-    user.belongsTo(models.user, {
-      foreignKey: 'managerId',
-      as: 'manager',
-      foreignKeyConstraint: true,
-    });
     user.hasMany(models.rating, {
       foreignKey: 'trainee',
     });
