@@ -3,7 +3,9 @@
 import Sequelize from 'sequelize';
 import database from '../database/models';
 
-const { user, group, cohort, rating, allowedEmails, program } = database;
+const {
+  user, group, cohort, rating, allowedEmails, program,
+} = database;
 const { Op } = Sequelize;
 
 /** Class representing user services. */

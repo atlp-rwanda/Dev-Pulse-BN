@@ -19,6 +19,10 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
     },
+    managerId: {
+      type: DataTypes.INTEGER,
+      defaultValue: null,
+    },
     role: {
       type: DataTypes.STRING,
       allowNull: false,

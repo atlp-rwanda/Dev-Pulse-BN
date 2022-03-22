@@ -77,6 +77,11 @@ class RatingService {
         include: [
           {
             model: User,
+            as: 'manager',
+            attributes: ['firstName', 'lastName', 'email'],
+          },
+          {
+            model: User,
             attributes: ['id', 'firstName', 'lastName', 'email', 'cohort', 'program'],
           },
         ],
