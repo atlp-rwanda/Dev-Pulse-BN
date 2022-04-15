@@ -26,9 +26,6 @@ export function up(queryInterface, Sequelize) {
     role: {
       type: Sequelize.STRING,
     },
-    managerId: {
-      type: Sequelize.INTEGER,
-    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
